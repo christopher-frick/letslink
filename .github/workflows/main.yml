@@ -30,7 +30,6 @@ jobs:
         run: |
           google-chrome --version
           chromedriver -v
-          npm run webdriver-start
           npm run ci:e2e:run
       - name: 'E2E: Teardown'
         run: npm run ci:e2e:teardown

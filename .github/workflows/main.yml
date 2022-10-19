@@ -37,6 +37,11 @@ jobs:
           sudo chown root:root /usr/bin/chromedriver
           sudo chmod +x /usr/bin/chromedriver
           chromedriver -v
+          wget https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.5.0/selenium-server-4.5.0.jar
+          mv selenium-server-standalone-3.141.59.jar selenium-server-standalone.jar
+          wget http://www.java2s.com/Code/JarDownload/testng/testng-6.8.7.jar.zip
+          unzip testng-6.8.7.jar.zip
+          xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
           npm run ci:e2e:run
       - name: 'E2E: Teardown'
         run: npm run ci:e2e:teardown

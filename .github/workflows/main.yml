@@ -43,6 +43,7 @@ jobs:
           wget http://www.java2s.com/Code/JarDownload/testng/testng-6.8.7.jar.zip
           unzip testng-6.8.7.jar.zip
           xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar
+          webdriver-manager start
           npm run ci:e2e:run
       - name: 'E2E: Teardown'
         run: npm run ci:e2e:teardown

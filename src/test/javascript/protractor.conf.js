@@ -1,6 +1,6 @@
 exports.config = {
   allScriptsTimeout: 60000,
-
+  chromeDriver: '/usr/bin/chromedriver',
   specs: [
     './e2e/modules/account/*.spec.ts',
     './e2e/modules/administration/*.spec.ts',

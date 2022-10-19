@@ -29,6 +29,7 @@ jobs:
       - name: 'E2E: Run'
         run: |
           google-chrome --version
+          which google-chrome
           sudo apt update
           sudo apt install -y unzip xvfb libxi6 libgconf-2-4
           wget https://chromedriver.storage.googleapis.com/106.0.5249.61/chromedriver_linux64.zip

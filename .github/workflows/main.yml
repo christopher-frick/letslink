@@ -36,7 +36,7 @@ jobs:
           sudo mv chromedriver /usr/bin/chromedriver
           sudo chown root:root /usr/bin/chromedriver
           sudo chmod +x /usr/bin/chromedriver
-          chromeDriver -v
+          chromedriver -v
           chromedriver --url-base=/wd/hub
           npm run ci:e2e:run
       - name: 'E2E: Teardown'

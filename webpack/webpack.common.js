@@ -103,7 +103,7 @@ module.exports = async options => {
         new ESLintPlugin({
           baseConfig: {
             parserOptions: {
-              project: ['../tsconfig.json'],
+              project: ['../tsconfig.json', '../tsconfig.e2e.json', '../tsconfig.test.json'],
             },
           },
         }),

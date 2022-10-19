@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig",
-  "include": ["src/main/webapp/app", "src/main/webapp/microfrontend"],
+  "include": ["src/main/webapp/app", "src/main/webapp/microfrontend", "src/test/javascript"],
   "exclude": [],
   "compilerOptions": {
     "paths": {

@@ -38,7 +38,7 @@ jobs:
           sudo chmod +x /usr/bin/chromedriver
           chromedriver -v
           wget https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.5.0/selenium-server-4.5.0.jar
-          mv selenium-server-standalone-3.141.59.jar selenium-server-standalone.jar
+          mv selenium-server-4.5.0.jar selenium-server-standalone.jar
           wget http://www.java2s.com/Code/JarDownload/testng/testng-6.8.7.jar.zip
           unzip testng-6.8.7.jar.zip
           xvfb-run java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -jar selenium-server-standalone.jar

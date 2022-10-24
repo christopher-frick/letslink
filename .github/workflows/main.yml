@@ -54,6 +54,10 @@ jobs:
           else
               echo No HEROKU_API_KEY, skipping...
           fi
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+            target: ${{ secrets.HEROKU_BETA_APP_URL }}
       #- name: 'E2E: Package'
       #  run: npm run ci:e2e:package
         #- name: 'E2E: Prepare'

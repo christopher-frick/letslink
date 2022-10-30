@@ -12,12 +12,9 @@ export const Home = () => {
 
   return (
     <Row>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
-      </Col>
       <Col md="9">
         <h2>
-          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
+          <Translate contentKey="home.title">Welcome, to Let&apos;s Link!</Translate>
         </h2>
         <p className="lead">
           <Translate contentKey="home.subtitle">This is your homepage</Translate>
@@ -54,10 +51,19 @@ export const Home = () => {
           </div>
         )}
         <p>
-          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
+          <Translate contentKey="home.question">Here are some links related to the Let&apos;s Link project:</Translate>
         </p>
 
         <ul>
+          <li>
+            <a
+              href="https://www.figma.com/proto/IIZ08eEOfwdbmU7O9pVfuC/Music-Marketplace?page-id=0%3A1&node-id=4%3A22&starting-point-node-id=4%3A22"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Translate contentKey="home.link.prototype">Figma clickable prototype</Translate>
+            </a>
+          </li>
           <li>
             <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
               <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
@@ -84,14 +90,6 @@ export const Home = () => {
             </a>
           </li>
         </ul>
-
-        <p>
-          <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          !
-        </p>
       </Col>
     </Row>
   );

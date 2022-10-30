@@ -1,12 +1,13 @@
 {
   "home": {
-    "title": "Bienvenue, Java Hipster !",
-    "subtitle": "Ceci est votre page d'accueil",
+    "title": "Welcome, to Let's Link!",
+    "subtitle": "Ceci est notre page d'accueil",
     "logged": {
       "message": "Vous êtes connecté en tant que \"{{username}}\"."
     },
-    "question": "Si vous avez des questions à propos de JHipster :",
+    "question": "Voici quelques liens en rapport avec le projet Let's Link:",
     "link": {
+      "prototype": "Prototype clickable Figma",
       "homepage": "Page d'accueil de JHipster",
       "stackoverflow": "JHipster sur Stack Overflow",
       "bugtracker": "JHipster bug tracker",

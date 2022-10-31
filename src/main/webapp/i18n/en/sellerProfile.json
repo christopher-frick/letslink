@@ -1,0 +1,38 @@
+{
+  "letslinkApp": {
+    "sellerProfile": {
+      "home": {
+        "title": "Seller Profiles",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Seller Profile",
+        "createOrEditLabel": "Create or edit a Seller Profile",
+        "notFound": "No Seller Profiles found"
+      },
+      "created": "A new Seller Profile is created with identifier {{ param }}",
+      "updated": "A Seller Profile is updated with identifier {{ param }}",
+      "deleted": "A Seller Profile is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Seller Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Seller Profile"
+      },
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "stripeAccountId": "Stripe Account Id",
+      "isSeller": "Is Seller",
+      "chargesEnabled": "Charges Enabled",
+      "artistName": "Artist Name",
+      "picture": "Picture",
+      "description": "Description",
+      "email": "Email",
+      "phone": "Phone",
+      "city": "City",
+      "country": "Country",
+      "user": "User",
+      "product": "Product",
+      "projectLink": "Project Link"
+    }
+  }
+}

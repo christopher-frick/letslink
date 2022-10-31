@@ -1,0 +1,26 @@
+{
+  "letslinkApp": {
+    "projectLink": {
+      "home": {
+        "title": "ProjectLinks",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Project Link",
+        "createOrEditLabel": "Créer ou éditer un Project Link",
+        "notFound": "Aucun Project Link trouvé"
+      },
+      "created": "Un nouveau Project Link a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Project Link avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Project Link avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Project Link {{ id }} ?"
+      },
+      "detail": {
+        "title": "Project Link"
+      },
+      "id": "ID",
+      "name": "Name",
+      "url": "Url",
+      "sellerProfile": "Seller Profile"
+    }
+  }
+}

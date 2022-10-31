@@ -1,0 +1,55 @@
+/** Profile collect all information for a Seller so he can start provide Products and Services */
+entity SellerProfile {
+    firstName String 
+    lastName String 
+    stripeAccountId String
+    isSeller Boolean
+    chargesEnabled Boolean
+    artistName String 
+    picture ImageBlob 
+    description String 
+    email String  pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+    phone String 
+    city City 
+    country Country 
+}
+
+/** Product are proposed by a Seller */
+entity Product {
+	name String 
+    description String 
+    picture ImageBlob
+    productCategory ProductCategory 
+    price BigDecimal min(0)
+    file AnyBlob 
+}
+
+/** ProjectLink are project available online where the Seller has been involved */
+entity ProjectLink {
+	name String 
+    url String 
+}
+
+enum Country {
+	CH
+}
+
+
+enum City {
+	BERN, BIENNE
+}
+
+enum ProductCategory {
+	BEAT, LOOP, SOUNDKIT
+}
+
+relationship OneToOne {
+ 	SellerProfile{user(login) required} to User
+}
+
+relationship OneToMany {
+  SellerProfile{product} to Product{sellerProfile},
+  SellerProfile{projectLink} to ProjectLink{sellerProfile}
+}
+
+service * with serviceClass

@@ -1,0 +1,91 @@
+{
+  "applications": "*",
+  "changelogDate": "20221031221429",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "seller_profile",
+  "fields": [
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stripeAccountId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isSeller",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "chargesEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "artistName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "picture",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["pattern"],
+      "fieldValidateRulesPattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "City",
+      "fieldValues": "BERN,BIENNE"
+    },
+    {
+      "fieldName": "country",
+      "fieldType": "Country",
+      "fieldValues": "CH"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Profile collect all information for a Seller so he can start provide Products and Services",
+  "jpaMetamodelFiltering": false,
+  "name": "SellerProfile",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "product",
+      "otherEntityRelationshipName": "sellerProfile",
+      "relationshipName": "product",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "projectLink",
+      "otherEntityRelationshipName": "sellerProfile",
+      "relationshipName": "projectLink",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,32 @@
+{
+  "applications": "*",
+  "changelogDate": "20221031221431",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "project_link",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "ProjectLink are project available online where the Seller has been involved",
+  "jpaMetamodelFiltering": false,
+  "name": "ProjectLink",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "sellerProfile",
+      "otherEntityRelationshipName": "projectLink",
+      "relationshipName": "sellerProfile",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

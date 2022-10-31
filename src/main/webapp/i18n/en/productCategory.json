@@ -1,0 +1,10 @@
+{
+  "letslinkApp": {
+    "ProductCategory": {
+      "null": "",
+      "BEAT": "BEAT",
+      "LOOP": "LOOP",
+      "SOUNDKIT": "SOUNDKIT"
+    }
+  }
+}

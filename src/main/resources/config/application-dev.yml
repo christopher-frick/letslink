@@ -108,7 +108,3 @@ jhipster:
 # ===================================================================
 
 # application:
-stripe:
-  keys:
-    secret: sk_test_51LydGKIW95eYbYGKNRUWehkJeRg3DBL3JKbVlkEs5UbqADDy204pWqvr0reNjeAuXOzvkOdPrVAfpitjRvtj1SYe00I2j3u6Q3
-    public: pk_test_51LydGKIW95eYbYGKPW1Ceur98K60M4DhuU6I3JymLX9Je1WRZBdV1cQJmTf3UCci5UxCPEoLFVZ0h8UnlUICtNp200DwJAVmd3

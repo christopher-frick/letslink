@@ -133,10 +133,11 @@ public class ProjectLinkResource {
     /**
      * {@code GET  /project-links} : get all the projectLinks.
      *
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projectLinks in body.
      */
     @GetMapping("/project-links")
-    public List<ProjectLink> getAllProjectLinks() {
+    public List<ProjectLink> getAllProjectLinks(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ProjectLinks");
         return projectLinkService.findAll();
     }

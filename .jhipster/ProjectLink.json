@@ -22,6 +22,7 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityField": "artistName",
       "otherEntityName": "sellerProfile",
       "otherEntityRelationshipName": "projectLink",
       "relationshipName": "sellerProfile",

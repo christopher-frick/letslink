@@ -44,12 +44,12 @@ enum ProductCategory {
 }
 
 relationship OneToOne {
- 	SellerProfile{user(login) required} to User
+ 	SellerProfile{user(login)} to User
 }
 
 relationship OneToMany {
-  SellerProfile{product} to Product{sellerProfile},
-  SellerProfile{projectLink} to ProjectLink{sellerProfile}
+  SellerProfile{product} to Product{sellerProfile(artistName)},
+  SellerProfile{projectLink} to ProjectLink{sellerProfile(artistName)}
 }
 
 service * with serviceClass

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,6 +84,15 @@ public class ProjectLinkService {
     }
 
     /**
+     * Get all the projectLinks with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<ProjectLink> findAllWithEagerRelationships(Pageable pageable) {
+        return projectLinkRepository.findAllWithEagerRelationships(pageable);
+    }
+
+    /**
      * Get one projectLink by id.
      *
      * @param id the id of the entity.
@@ -90,7 +101,7 @@ public class ProjectLinkService {
     @Transactional(readOnly = true)
     public Optional<ProjectLink> findOne(Long id) {
         log.debug("Request to get ProjectLink : {}", id);
-        return projectLinkRepository.findById(id);
+        return projectLinkRepository.findOneWithEagerRelationships(id);
     }
 
     /**

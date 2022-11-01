@@ -51,25 +51,27 @@ describe('SellerProfile e2e test', () => {
     expect(await sellerProfileComponentsPage.createButton.isEnabled()).to.be.true;
   });
 
-  /* it('should create and delete SellerProfiles', async () => {
-        const beforeRecordsCount = await isVisible(sellerProfileComponentsPage.noRecords) ? 0 : await getRecordsCount(sellerProfileComponentsPage.table);
-        sellerProfileUpdatePage = await sellerProfileComponentsPage.goToCreateSellerProfile();
-        await sellerProfileUpdatePage.enterData();
-        expect(await isVisible(sellerProfileUpdatePage.saveButton)).to.be.false;
+  it('should create and delete SellerProfiles', async () => {
+    const beforeRecordsCount = (await isVisible(sellerProfileComponentsPage.noRecords))
+      ? 0
+      : await getRecordsCount(sellerProfileComponentsPage.table);
+    sellerProfileUpdatePage = await sellerProfileComponentsPage.goToCreateSellerProfile();
+    await sellerProfileUpdatePage.enterData();
+    expect(await isVisible(sellerProfileUpdatePage.saveButton)).to.be.false;
 
-        expect(await sellerProfileComponentsPage.createButton.isEnabled()).to.be.true;
-        await waitUntilDisplayed(sellerProfileComponentsPage.table);
-        await waitUntilCount(sellerProfileComponentsPage.records, beforeRecordsCount + 1);
-        expect(await sellerProfileComponentsPage.records.count()).to.eq(beforeRecordsCount + 1);
+    expect(await sellerProfileComponentsPage.createButton.isEnabled()).to.be.true;
+    await waitUntilDisplayed(sellerProfileComponentsPage.table);
+    await waitUntilCount(sellerProfileComponentsPage.records, beforeRecordsCount + 1);
+    expect(await sellerProfileComponentsPage.records.count()).to.eq(beforeRecordsCount + 1);
 
-        await sellerProfileComponentsPage.deleteSellerProfile();
-        if(beforeRecordsCount !== 0) {
-          await waitUntilCount(sellerProfileComponentsPage.records, beforeRecordsCount);
-          expect(await sellerProfileComponentsPage.records.count()).to.eq(beforeRecordsCount);
-        } else {
-          await waitUntilDisplayed(sellerProfileComponentsPage.noRecords);
-        }
-    }); */
+    await sellerProfileComponentsPage.deleteSellerProfile();
+    if (beforeRecordsCount !== 0) {
+      await waitUntilCount(sellerProfileComponentsPage.records, beforeRecordsCount);
+      expect(await sellerProfileComponentsPage.records.count()).to.eq(beforeRecordsCount);
+    } else {
+      await waitUntilDisplayed(sellerProfileComponentsPage.noRecords);
+    }
+  });
 
   after(async () => {
     await navBarPage.autoSignOut();

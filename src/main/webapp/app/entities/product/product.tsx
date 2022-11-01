@@ -121,7 +121,7 @@ export const Product = () => {
                   </td>
                   <td>
                     {product.sellerProfile ? (
-                      <Link to={`/seller-profile/${product.sellerProfile.id}`}>{product.sellerProfile.id}</Link>
+                      <Link to={`/seller-profile/${product.sellerProfile.id}`}>{product.sellerProfile.artistName}</Link>
                     ) : (
                       ''
                     )}

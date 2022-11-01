@@ -211,7 +211,6 @@ export const SellerProfileUpdate = () => {
                 data-cy="user"
                 label={translate('letslinkApp.sellerProfile.user')}
                 type="select"
-                required
               >
                 <option value="" key="0" />
                 {users
@@ -222,9 +221,6 @@ export const SellerProfileUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <FormText>
-                <Translate contentKey="entity.validation.required">This field is required.</Translate>
-              </FormText>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/seller-profile" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

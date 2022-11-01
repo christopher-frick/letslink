@@ -75,7 +75,7 @@ export const ProjectLink = () => {
                   <td>{projectLink.url}</td>
                   <td>
                     {projectLink.sellerProfile ? (
-                      <Link to={`/seller-profile/${projectLink.sellerProfile.id}`}>{projectLink.sellerProfile.id}</Link>
+                      <Link to={`/seller-profile/${projectLink.sellerProfile.id}`}>{projectLink.sellerProfile.artistName}</Link>
                     ) : (
                       ''
                     )}

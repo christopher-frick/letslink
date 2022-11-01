@@ -73,8 +73,7 @@ public class SellerProfile implements Serializable {
     @Column(name = "country")
     private Country country;
 
-    @OneToOne(optional = false)
-    @NotNull
+    @OneToOne
     @JoinColumn(unique = true)
     private User user;
 

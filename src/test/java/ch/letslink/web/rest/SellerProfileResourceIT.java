@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ch.letslink.IntegrationTest;
 import ch.letslink.domain.SellerProfile;
-import ch.letslink.domain.User;
 import ch.letslink.domain.enumeration.City;
 import ch.letslink.domain.enumeration.Country;
 import ch.letslink.repository.SellerProfileRepository;
@@ -125,11 +124,6 @@ class SellerProfileResourceIT {
             .phone(DEFAULT_PHONE)
             .city(DEFAULT_CITY)
             .country(DEFAULT_COUNTRY);
-        // Add required entity
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
-        em.flush();
-        sellerProfile.setUser(user);
         return sellerProfile;
     }
 
@@ -154,11 +148,6 @@ class SellerProfileResourceIT {
             .phone(UPDATED_PHONE)
             .city(UPDATED_CITY)
             .country(UPDATED_COUNTRY);
-        // Add required entity
-        User user = UserResourceIT.createEntity(em);
-        em.persist(user);
-        em.flush();
-        sellerProfile.setUser(user);
         return sellerProfile;
     }
 

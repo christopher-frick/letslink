@@ -155,7 +155,7 @@ export const ProductUpdate = () => {
                 {sellerProfiles
                   ? sellerProfiles.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.artistName}
                       </option>
                     ))
                   : null}

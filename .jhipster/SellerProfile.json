@@ -71,8 +71,7 @@
       "otherEntityName": "user",
       "ownerSide": true,
       "relationshipName": "user",
-      "relationshipType": "one-to-one",
-      "relationshipValidateRules": "required"
+      "relationshipType": "one-to-one"
     },
     {
       "otherEntityName": "product",

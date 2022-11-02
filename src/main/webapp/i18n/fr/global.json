@@ -52,7 +52,7 @@
         "authenticated": {
           "prefix": "Si vous avez déjà un compte, vous pouvez vous",
           "link": " connecter ici",
-          "suffix": "<br/> Ce site est actuellement en cours de développement dans le cadre d'une étude.<br/> Vous aimeriez plus d'information ou vous voulez nous faire un feedback ? Envoyez-nous un e-mail à <a href=\"mailto:christopher.frick@outlook.fr\">christopher.frick@outlook.fr.<a/>"
+          "suffix": "<br/> Ce site est actuellement en cours de développement dans le cadre d'une étude.<br/> Vous aimeriez plus d'information ou vous voulez nous faire un feedback ? Envoyez-nous un e-mail à <a href=\"mailto:christopher.frick@outlook.fr\">christopher.frick@outlook.fr.</a>"
         },
         "register": {
           "noaccount": "Vous n'avez pas encore de compte ?",

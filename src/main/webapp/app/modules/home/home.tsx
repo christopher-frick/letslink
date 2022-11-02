@@ -10,7 +10,6 @@ import { useAppSelector } from 'app/config/store';
 export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
 
-  // @ts-ignore
   return (
     <Row>
       <Col md="9">
@@ -32,7 +31,6 @@ export const Home = () => {
           <div>
             <Alert color="warning">
               <Translate contentKey="global.messages.info.authenticated.prefix">If you already have an account, you can </Translate>
-
               <Link to="/login" className="alert-link">
                 <Translate contentKey="global.messages.info.authenticated.link">sign in here</Translate>
               </Link>

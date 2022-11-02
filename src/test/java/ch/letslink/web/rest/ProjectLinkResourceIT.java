@@ -2,20 +2,29 @@ package ch.letslink.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import ch.letslink.IntegrationTest;
 import ch.letslink.domain.ProjectLink;
 import ch.letslink.repository.ProjectLinkRepository;
+import ch.letslink.service.ProjectLinkService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link ProjectLinkResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ProjectLinkResourceIT {
@@ -43,6 +53,12 @@ class ProjectLinkResourceIT {
 
     @Autowired
     private ProjectLinkRepository projectLinkRepository;
+
+    @Mock
+    private ProjectLinkRepository projectLinkRepositoryMock;
+
+    @Mock
+    private ProjectLinkService projectLinkServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -128,6 +144,23 @@ class ProjectLinkResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(projectLink.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProjectLinksWithEagerRelationshipsIsEnabled() throws Exception {
+        when(projectLinkServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProjectLinkMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(projectLinkServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProjectLinksWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(projectLinkServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProjectLinkMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(projectLinkRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test

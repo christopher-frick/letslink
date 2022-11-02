@@ -3,6 +3,7 @@ package ch.letslink.web.rest;
 import static ch.letslink.web.rest.TestUtil.sameNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,15 +11,23 @@ import ch.letslink.IntegrationTest;
 import ch.letslink.domain.Product;
 import ch.letslink.domain.enumeration.ProductCategory;
 import ch.letslink.repository.ProductRepository;
+import ch.letslink.service.ProductService;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +38,7 @@ import org.springframework.util.Base64Utils;
  * Integration tests for the {@link ProductResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ProductResourceIT {
@@ -63,6 +73,12 @@ class ProductResourceIT {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Mock
+    private ProductRepository productRepositoryMock;
+
+    @Mock
+    private ProductService productServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -176,6 +192,23 @@ class ProductResourceIT {
             .andExpect(jsonPath("$.[*].price").value(hasItem(sameNumber(DEFAULT_PRICE))))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProductsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(productServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProductMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(productServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProductsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(productServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProductMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(productRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test

@@ -19,7 +19,7 @@ export interface ISellerProfile {
   phone?: string | null;
   city?: City | null;
   country?: Country | null;
-  user?: IUser;
+  user?: IUser | null;
   products?: IProduct[] | null;
   projectLinks?: IProjectLink[] | null;
 }

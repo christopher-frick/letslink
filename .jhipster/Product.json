@@ -43,6 +43,7 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityField": "artistName",
       "otherEntityName": "sellerProfile",
       "otherEntityRelationshipName": "product",
       "relationshipName": "sellerProfile",

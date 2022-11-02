@@ -47,7 +47,7 @@ export const ProjectLinkDetail = () => {
           <dt>
             <Translate contentKey="letslinkApp.projectLink.sellerProfile">Seller Profile</Translate>
           </dt>
-          <dd>{projectLinkEntity.sellerProfile ? projectLinkEntity.sellerProfile.id : ''}</dd>
+          <dd>{projectLinkEntity.sellerProfile ? projectLinkEntity.sellerProfile.artistName : ''}</dd>
         </dl>
         <Button tag={Link} to="/project-link" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

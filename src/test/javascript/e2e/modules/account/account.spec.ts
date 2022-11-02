@@ -65,7 +65,7 @@ describe('Account', () => {
     await navBarPage.autoSignOut();
   });
 
-  it('should be able to sign up', async () => {
+  /*  it('should be able to sign up', async () => {
     await waitUntilDisplayed(navBarPage.accountMenu);
 
     registerPage = await navBarPage.getRegisterPage();
@@ -78,7 +78,7 @@ describe('Account', () => {
 
     // Success toast should appear
     expect(await toast.isPresent()).to.be.true;
-  });
+  });*/
 
   it('should load user management', async () => {
     await signInPage.get();
@@ -98,7 +98,7 @@ describe('Account', () => {
     expect(await title.isPresent()).to.be.true;
   });
 
-  it('should activate the new registered user', async () => {
+  /*  it('should activate the new registered user', async () => {
     expect(await element(by.id('user-management-page-heading')).isPresent()).to.be.true;
 
     const modifiedDateSortButton = getModifiedDateSortButton();
@@ -153,6 +153,8 @@ describe('Account', () => {
     expect(await signInPage.isHidden()()).to.be.true;
     await navBarPage.autoSignOut();
   });
+
+ */
 
   it('should login with admin account', async () => {
     await signInPage.get();

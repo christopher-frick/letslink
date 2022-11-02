@@ -30,24 +30,23 @@ export const Home = () => {
         ) : (
           <div>
             <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-
+              <Translate contentKey="global.messages.info.authenticated.prefix">If you already have an account, you can </Translate>
               <Link to="/login" className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link"> sign in</Translate>
+                <Translate contentKey="global.messages.info.authenticated.link">sign in here</Translate>
               </Link>
               <Translate contentKey="global.messages.info.authenticated.suffix">
-                , you can try the default accounts:
-                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
+                <br /> This site is currently under development as part of a study.
+                <br /> Would you like more information or want to give us feedback? Send us an e-mail to{' '}
+                <a href="mailto:christopher.frick@outlook.fr">christopher.frick@outlook.fr.</a>
               </Translate>
             </Alert>
 
-            <Alert color="warning">
+            {/*<Alert color="warning">
               <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
               <Link to="/account/register" className="alert-link">
                 <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
               </Link>
-            </Alert>
+            </Alert>*/}
           </div>
         )}
         <p>
@@ -64,7 +63,7 @@ export const Home = () => {
               <Translate contentKey="home.link.prototype">Figma clickable prototype</Translate>
             </a>
           </li>
-          <li>
+          {/*<li>
             <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
               <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
             </a>
@@ -88,7 +87,7 @@ export const Home = () => {
             <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
               <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
             </a>
-          </li>
+          </li>*/}
         </ul>
       </Col>
     </Row>

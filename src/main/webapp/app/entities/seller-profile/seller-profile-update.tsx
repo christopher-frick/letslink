@@ -35,6 +35,7 @@ export const SellerProfileUpdate = () => {
   const countryValues = Object.keys(Country);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const hasAlreadySellerProfile = useAppSelector(state => state.sellerProfile.hasAlreadySellerProfile);
   const handleClose = () => {
     navigate('/seller-profile');
   };
@@ -157,6 +158,10 @@ export const SellerProfileUpdate = () => {
                   pattern: {
                     value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
                     message: translate('entity.validation.pattern', { pattern: '^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$' }),
+                  },
+                  required: {
+                    message: 'Please enter your email address',
+                    value: true,
                   },
                 }}
               />

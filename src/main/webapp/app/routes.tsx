@@ -14,6 +14,7 @@ import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import SellerProfile from 'app/entities/seller-profile';
+import SellerProfileDetail from 'app/entities/seller-profile/seller-profile-detail';
 
 const loading = <div>loading ...</div>;
 
@@ -59,6 +60,7 @@ const AppRoutes = () => {
           }
         />
         <Route path="/seller-profile/*" element={<SellerProfile />} />
+        <Route path="/to/:id" element={<SellerProfileDetail />} />
         <Route
           path="*"
           element={

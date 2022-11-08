@@ -4,10 +4,11 @@ import { Button, Row, Col } from 'reactstrap';
 import { Translate, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT, AUTHORITIES } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './seller-profile.reducer';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
 export const SellerProfileDetail = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ export const SellerProfileDetail = () => {
 
   const sellerProfileEntity = useAppSelector(state => state.sellerProfile.entity);
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
-  const isAdmin = useAppSelector(state => state.authentication.account.authorities.includes('ROLE_ADMIN'));
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const account = useAppSelector(state => state.authentication.account);
   return (
     <Row>

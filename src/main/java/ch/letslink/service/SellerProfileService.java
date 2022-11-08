@@ -175,7 +175,7 @@ public class SellerProfileService {
             sellerProfileRepository.findById(id).ifPresent(sellerProfileRepository::delete);
         } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
             if (sellerProfileRepository.findById(id).isPresent()) {
-                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent() && sellerProfileRepository.findById(id).isPresent()) {
                     if (sellerProfileRepository.findById(id).get().getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
                         sellerProfileRepository.deleteById(id);
                     } else {

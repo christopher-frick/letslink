@@ -58,7 +58,7 @@ export const Home = () => {
         </Button>
       )}
       <br />
-      <Button tag={Link} to="/seller-page" color="secondary" size="lg" className="mr-3">
+      <Button tag={Link} to="/seller-profile/" color="secondary" size="lg" className="mr-3">
         Start Browsing
       </Button>
       <p>

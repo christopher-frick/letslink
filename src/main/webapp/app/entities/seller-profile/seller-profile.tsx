@@ -89,7 +89,7 @@ export const SellerProfile = () => {
               <div className="card text-white bg-dark mb-3" key={`entity-${i}`} data-cy="entityTable">
                 <div className="card-header content-center align-content-center">
                   {sellerProfile?.pictureContentType ? (
-                    <img src={`data:${sellerProfile.pictureContentType};base64,${sellerProfile.picture}`} style={{ maxHeight: '30px' }} />
+                    <img src={`data:${sellerProfile.pictureContentType};base64,${sellerProfile.picture}`} className="img-fluid" />
                   ) : null}
                 </div>
                 <div className="card-body">

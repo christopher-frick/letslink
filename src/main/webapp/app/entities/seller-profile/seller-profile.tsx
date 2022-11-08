@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Button, Col, Row, Table } from 'reactstrap';
 import { openFile, byteSize, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -32,6 +32,38 @@ export const SellerProfile = () => {
     dispatch(getEntities({}));
   };
 
+  const buttonGroup = sellerProfile => {
+    return (
+      <div className="btn-group flex-btn-group-container">
+        {isAuthenticated && (isAdmin || sellerProfile.user?.id === account?.id) && (
+          <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+            <FontAwesomeIcon icon="pencil-alt" />{' '}
+            <span className="d-none d-md-inline">
+              <Translate contentKey="entity.action.edit">Edit</Translate>
+            </span>
+          </Button>
+        )}
+        {isAuthenticated &&
+          ((isAdmin && (
+            <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+              <FontAwesomeIcon icon="trash" />{' '}
+              <span className="d-none d-md-inline">
+                <Translate contentKey="entity.action.delete">Delete</Translate>
+              </span>
+            </Button>
+          )) ||
+            (sellerProfile.user?.id === account?.id && (
+              <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                <FontAwesomeIcon icon="trash" />{' '}
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.delete">Delete</Translate>
+                </span>
+              </Button>
+            )))}
+      </div>
+    );
+  };
+
   return (
     <div>
       <h2 id="seller-profile-heading" data-cy="SellerProfileHeading">
@@ -50,157 +82,33 @@ export const SellerProfile = () => {
           )}
         </div>
       </h2>
-      <div className="table-responsive">
-        {sellerProfileList && sellerProfileList.length > 0 ? (
-          <Table responsive>
-            <thead>
-              <tr>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.id">ID</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.firstName">First Name</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.lastName">Last Name</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.stripeAccountId">Stripe Account Id</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.artistName">Artist Name</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.picture">Picture</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.description">Description</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.email">Email</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.phone">Phone</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.city">City</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.country">Country</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.user">User</Translate>
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {sellerProfileList.map((sellerProfile, i) => (
-                <tr key={`entity-${i}`} data-cy="entityTable">
-                  <td>
-                    <Button tag={Link} to={`/seller-profile/${sellerProfile.id}`} color="link" size="sm">
-                      {sellerProfile.id}
-                    </Button>
-                  </td>
-                  <td>{sellerProfile.firstName}</td>
-                  <td>{sellerProfile.lastName}</td>
-                  <td>{sellerProfile.stripeAccountId}</td>
-                  <td>{sellerProfile.artistName}</td>
-                  <td>
-                    {sellerProfile.picture ? (
-                      <div>
-                        {sellerProfile.pictureContentType ? (
-                          <a onClick={openFile(sellerProfile.pictureContentType, sellerProfile.picture)}>
-                            <img
-                              src={`data:${sellerProfile.pictureContentType};base64,${sellerProfile.picture}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                        ) : null}
-                        <span>
-                          {sellerProfile.pictureContentType}, {byteSize(sellerProfile.picture)}
-                        </span>
-                      </div>
-                    ) : null}
-                  </td>
-                  <td>{sellerProfile.description}</td>
-                  <td>{sellerProfile.email}</td>
-                  <td>{sellerProfile.phone}</td>
-                  <td>
-                    <Translate contentKey={`letslinkApp.City.${sellerProfile.city}`} />
-                  </td>
-                  <td>
-                    <Translate contentKey={`letslinkApp.Country.${sellerProfile.country}`} />
-                  </td>
-                  <td>{sellerProfile.user ? sellerProfile.user.login : ''}</td>
-                  <td className="text-end">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`/seller-profile/${sellerProfile.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
-                      </Button>
-                      {isAuthenticated && (isAdmin || sellerProfile.user?.id === account?.id) && (
-                        <Button
-                          tag={Link}
-                          to={`/seller-profile/${sellerProfile.id}/edit`}
-                          color="primary"
-                          size="sm"
-                          data-cy="entityEditButton"
-                        >
-                          <FontAwesomeIcon icon="pencil-alt" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.edit">Edit</Translate>
-                          </span>
-                        </Button>
-                      )}
-                      {isAuthenticated &&
-                        ((isAdmin && (
-                          <Button
-                            tag={Link}
-                            to={`/seller-profile/${sellerProfile.id}/delete`}
-                            color="danger"
-                            size="sm"
-                            data-cy="entityDeleteButton"
-                          >
-                            <FontAwesomeIcon icon="trash" />{' '}
-                            <span className="d-none d-md-inline">
-                              <Translate contentKey="entity.action.delete">Delete</Translate>
-                            </span>
-                          </Button>
-                        )) ||
-                          (sellerProfile.user?.id === account?.id && (
-                            <Button
-                              tag={Link}
-                              to={`/seller-profile/${sellerProfile.id}/delete`}
-                              color="danger"
-                              size="sm"
-                              data-cy="entityDeleteButton"
-                            >
-                              <FontAwesomeIcon icon="trash" />{' '}
-                              <span className="d-none d-md-inline">
-                                <Translate contentKey="entity.action.delete">Delete</Translate>
-                              </span>
-                            </Button>
-                          )))}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="letslinkApp.sellerProfile.home.notFound">No Seller Profiles found</Translate>
-            </div>
-          )
-        )}
-      </div>
+      {sellerProfileList && sellerProfileList.length > 0 ? (
+        <Row>
+          {sellerProfileList.map((sellerProfile, i) => (
+            <Col md="6" tag={Link} to={`/seller-profile/${sellerProfile.id}`}>
+              <div className="card text-white bg-dark mb-3" key={`entity-${i}`} data-cy="entityTable">
+                <div className="card-header content-center align-content-center">
+                  {sellerProfile?.pictureContentType ? (
+                    <img src={`data:${sellerProfile.pictureContentType};base64,${sellerProfile.picture}`} style={{ maxHeight: '30px' }} />
+                  ) : null}
+                </div>
+                <div className="card-body">
+                  <h4 className="card-title text-center">{sellerProfile?.artistName ? sellerProfile.artistName : 'No Artist Name!'}</h4>
+                  <p className="card-text">{sellerProfile?.description ? sellerProfile.description : 'No description!'}</p>
+                </div>
+                {isAuthenticated && <div className="card-footer">{buttonGroup(sellerProfile)}</div>}
+              </div>
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        !loading && (
+          <div className="alert alert-warning">
+            <Translate contentKey="letslinkApp.sellerProfile.home.notFound">No Seller Profiles found</Translate>
+          </div>
+        )
+      )}
     </div>
   );
 };
-
 export default SellerProfile;

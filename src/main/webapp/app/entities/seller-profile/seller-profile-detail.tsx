@@ -51,18 +51,6 @@ export const SellerProfileDetail = () => {
           </dt>
           <dd>{sellerProfileEntity.stripeAccountId}</dd>
           <dt>
-            <span id="isSeller">
-              <Translate contentKey="letslinkApp.sellerProfile.isSeller">Is Seller</Translate>
-            </span>
-          </dt>
-          <dd>{sellerProfileEntity.isSeller ? 'true' : 'false'}</dd>
-          <dt>
-            <span id="chargesEnabled">
-              <Translate contentKey="letslinkApp.sellerProfile.chargesEnabled">Charges Enabled</Translate>
-            </span>
-          </dt>
-          <dd>{sellerProfileEntity.chargesEnabled ? 'true' : 'false'}</dd>
-          <dt>
             <span id="artistName">
               <Translate contentKey="letslinkApp.sellerProfile.artistName">Artist Name</Translate>
             </span>

@@ -49,5 +49,5 @@ relationship OneToMany {
   SellerProfile{product} to Product{sellerProfile(artistName)},
   SellerProfile{projectLink} to ProjectLink{sellerProfile(artistName)}
 }
-dto SellerProfile, Product with mapstruct
+
 service * with serviceClass

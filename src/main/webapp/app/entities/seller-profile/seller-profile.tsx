@@ -61,12 +61,6 @@ export const SellerProfile = () => {
                   <Translate contentKey="letslinkApp.sellerProfile.stripeAccountId">Stripe Account Id</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.isSeller">Is Seller</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="letslinkApp.sellerProfile.chargesEnabled">Charges Enabled</Translate>
-                </th>
-                <th>
                   <Translate contentKey="letslinkApp.sellerProfile.artistName">Artist Name</Translate>
                 </th>
                 <th>
@@ -104,8 +98,6 @@ export const SellerProfile = () => {
                   <td>{sellerProfile.firstName}</td>
                   <td>{sellerProfile.lastName}</td>
                   <td>{sellerProfile.stripeAccountId}</td>
-                  <td>{sellerProfile.isSeller ? 'true' : 'false'}</td>
-                  <td>{sellerProfile.chargesEnabled ? 'true' : 'false'}</td>
                   <td>{sellerProfile.artistName}</td>
                   <td>
                     {sellerProfile.picture ? (

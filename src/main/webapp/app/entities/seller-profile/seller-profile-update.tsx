@@ -122,22 +122,6 @@ export const SellerProfileUpdate = () => {
                 type="text"
               />
               <ValidatedField
-                label={translate('letslinkApp.sellerProfile.isSeller')}
-                id="seller-profile-isSeller"
-                name="isSeller"
-                data-cy="isSeller"
-                check
-                type="checkbox"
-              />
-              <ValidatedField
-                label={translate('letslinkApp.sellerProfile.chargesEnabled')}
-                id="seller-profile-chargesEnabled"
-                name="chargesEnabled"
-                data-cy="chargesEnabled"
-                check
-                type="checkbox"
-              />
-              <ValidatedField
                 label={translate('letslinkApp.sellerProfile.artistName')}
                 id="seller-profile-artistName"
                 name="artistName"

@@ -21,8 +21,6 @@
       "firstName": "First Name",
       "lastName": "Last Name",
       "stripeAccountId": "Stripe Account Id",
-      "isSeller": "Is Seller",
-      "chargesEnabled": "Charges Enabled",
       "artistName": "Artist Name",
       "picture": "Picture",
       "description": "Description",

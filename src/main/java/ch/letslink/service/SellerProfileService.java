@@ -69,12 +69,6 @@ public class SellerProfileService {
                 if (sellerProfile.getStripeAccountId() != null) {
                     existingSellerProfile.setStripeAccountId(sellerProfile.getStripeAccountId());
                 }
-                if (sellerProfile.getIsSeller() != null) {
-                    existingSellerProfile.setIsSeller(sellerProfile.getIsSeller());
-                }
-                if (sellerProfile.getChargesEnabled() != null) {
-                    existingSellerProfile.setChargesEnabled(sellerProfile.getChargesEnabled());
-                }
                 if (sellerProfile.getArtistName() != null) {
                     existingSellerProfile.setArtistName(sellerProfile.getArtistName());
                 }

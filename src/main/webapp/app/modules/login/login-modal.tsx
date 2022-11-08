@@ -81,7 +81,7 @@ const LoginModal = (props: ILoginModalProps) => {
             </Col>
           </Row>
           <div className="mt-1">&nbsp;</div>
-          <Alert color="warning">
+          {/*<Alert color="warning">
             <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
               <Translate contentKey="login.password.forgot">Did you forget your password?</Translate>
             </Link>
@@ -93,7 +93,7 @@ const LoginModal = (props: ILoginModalProps) => {
             <Link to="/account/register">
               <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
             </Link>
-          </Alert>
+          </Alert>*/}
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={handleClose} tabIndex={1}>

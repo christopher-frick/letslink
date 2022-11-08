@@ -199,28 +199,31 @@ export const SellerProfileUpdate = () => {
                 data-cy="user"
                 label={translate('letslinkApp.sellerProfile.user')}
                 type="select"
-                disabled={isAdmin ? false : true}
+                /*disabled={isAdmin ? false : true}*/
               >
-                {isAuthenticated ? (
-                  // if admin, show all users
-                  // if not admin, show current account logged in
-                  isAdmin ? (
-                    users ? (
-                      users.map(user => (
-                        <option value={user.id} key={user.id}>
-                          {console.log(user.id)}
-                          {user.login}
-                        </option>
-                      ))
-                    ) : null
-                  ) : (
-                    // show account login if not admin
-                    <option value={account.id} key={account.id}>
-                      {account.login}
-                      {console.log(account.id)}
-                    </option>
-                  )
-                ) : null}
+                {
+                  // isauthenticated is used to prevent the user from seeing the user field when he is not logged in
+                  isAuthenticated &&
+                    // if the user is logged in has admin rights, he can see all users
+                    (isAdmin
+                      ? users &&
+                        users.length > 0 &&
+                        users.map(user => (
+                          <option value={user.id} key={user.id}>
+                            {user.login}
+                          </option>
+                        ))
+                      : // if the user is logged in but has no admin rights, he can only see his own user
+                        users &&
+                        users.length > 0 &&
+                        users
+                          .filter(user => user.id === account.id)
+                          .map(user => (
+                            <option value={user.id} key={user.id}>
+                              {user.login}
+                            </option>
+                          )))
+                }
               </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/seller-profile" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

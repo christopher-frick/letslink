@@ -156,20 +156,35 @@ export const SellerProfile = () => {
                           </span>
                         </Button>
                       )}
-                      {isAdmin && (
-                        <Button
-                          tag={Link}
-                          to={`/seller-profile/${sellerProfile.id}/delete`}
-                          color="danger"
-                          size="sm"
-                          data-cy="entityDeleteButton"
-                        >
-                          <FontAwesomeIcon icon="trash" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.delete">Delete</Translate>
-                          </span>
-                        </Button>
-                      )}
+                      {isAuthenticated &&
+                        ((isAdmin && (
+                          <Button
+                            tag={Link}
+                            to={`/seller-profile/${sellerProfile.id}/delete`}
+                            color="danger"
+                            size="sm"
+                            data-cy="entityDeleteButton"
+                          >
+                            <FontAwesomeIcon icon="trash" />{' '}
+                            <span className="d-none d-md-inline">
+                              <Translate contentKey="entity.action.delete">Delete</Translate>
+                            </span>
+                          </Button>
+                        )) ||
+                          (sellerProfile.user?.id === account?.id && (
+                            <Button
+                              tag={Link}
+                              to={`/seller-profile/${sellerProfile.id}/delete`}
+                              color="danger"
+                              size="sm"
+                              data-cy="entityDeleteButton"
+                            >
+                              <FontAwesomeIcon icon="trash" />{' '}
+                              <span className="d-none d-md-inline">
+                                <Translate contentKey="entity.action.delete">Delete</Translate>
+                              </span>
+                            </Button>
+                          )))}
                     </div>
                   </td>
                 </tr>

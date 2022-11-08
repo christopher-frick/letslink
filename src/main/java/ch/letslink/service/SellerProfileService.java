@@ -162,6 +162,29 @@ public class SellerProfileService {
      */
     public void delete(Long id) {
         log.debug("Request to delete SellerProfile : {}", id);
-        sellerProfileRepository.deleteById(id);
+        // check if the current user is has admin authority
+        // if it does, delete the sellerProfile
+        // check if the current user is has user authority
+        // if it does, check if the sellerProfile has a user
+        // if it does, check if the sellerProfile user is the same as the current user
+        // if it is, delete the sellerProfile
+        // if it is not, throw an exception
+        // if it does not have a user, throw an exception
+        // if it does not have user authority, throw an exception
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            sellerProfileRepository.findById(id).ifPresent(sellerProfileRepository::delete);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
+            if (sellerProfileRepository.findById(id).isPresent()) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                    if (sellerProfileRepository.findById(id).get().getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                        sellerProfileRepository.deleteById(id);
+                    } else {
+                        throw new RuntimeException("You are not allowed to delete this sellerProfile");
+                    }
+                }
+            } else {
+                throw new RuntimeException("You are not allowed to delete this sellerProfile");
+            }
+        }
     }
 }

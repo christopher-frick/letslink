@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ch.letslink.IntegrationTest;
 import ch.letslink.domain.SellerProfile;
+import ch.letslink.domain.User;
 import ch.letslink.domain.enumeration.City;
 import ch.letslink.domain.enumeration.Country;
 import ch.letslink.repository.SellerProfileRepository;
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
@@ -537,6 +540,7 @@ class SellerProfileResourceIT {
 
         // Validate the database contains one less item
         List<SellerProfile> sellerProfileList = sellerProfileRepository.findAll();
+
         assertThat(sellerProfileList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

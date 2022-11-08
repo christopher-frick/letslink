@@ -168,7 +168,7 @@ public class SellerProfileResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/seller-profiles/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER')")
     public ResponseEntity<Void> deleteSellerProfile(@PathVariable Long id) {
         log.debug("REST request to delete SellerProfile : {}", id);
         sellerProfileService.delete(id);

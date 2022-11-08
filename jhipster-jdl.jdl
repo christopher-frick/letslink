@@ -3,8 +3,6 @@ entity SellerProfile {
     firstName String 
     lastName String 
     stripeAccountId String
-    isSeller Boolean
-    chargesEnabled Boolean
     artistName String 
     picture ImageBlob 
     description String 
@@ -51,5 +49,5 @@ relationship OneToMany {
   SellerProfile{product} to Product{sellerProfile(artistName)},
   SellerProfile{projectLink} to ProjectLink{sellerProfile(artistName)}
 }
-
+dto SellerProfile, Product with mapstruct
 service * with serviceClass

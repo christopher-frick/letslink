@@ -18,6 +18,7 @@ export const SellerProfile = () => {
 
   const sellerProfileList = useAppSelector(state => state.sellerProfile.entities);
   const loading = useAppSelector(state => state.sellerProfile.loading);
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
 
   useEffect(() => {
     dispatch(getEntities({}));
@@ -36,11 +37,13 @@ export const SellerProfile = () => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="letslinkApp.sellerProfile.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
-          </Link>
+          {isAuthenticated && (
+            <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+              <FontAwesomeIcon icon="plus" />
+              &nbsp;
+              <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
+            </Link>
+          )}
         </div>
       </h2>
       <div className="table-responsive">

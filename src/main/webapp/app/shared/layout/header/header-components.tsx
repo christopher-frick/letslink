@@ -30,3 +30,14 @@ export const Home = () => (
     </NavLink>
   </NavItem>
 );
+
+export const SellerProfile = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/seller-profile" className="d-flex align-items-center">
+      <FontAwesomeIcon icon="asterisk" />
+      <span>
+        <Translate contentKey="global.menu.entities.sellerProfile">SellerProfile</Translate>
+      </span>
+    </NavLink>
+  </NavItem>
+);

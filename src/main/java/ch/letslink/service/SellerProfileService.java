@@ -2,6 +2,8 @@ package ch.letslink.service;
 
 import ch.letslink.domain.SellerProfile;
 import ch.letslink.repository.SellerProfileRepository;
+import ch.letslink.security.AuthoritiesConstants;
+import ch.letslink.security.SecurityUtils;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -34,6 +36,28 @@ public class SellerProfileService {
      */
     public SellerProfile save(SellerProfile sellerProfile) {
         log.debug("Request to save SellerProfile : {}", sellerProfile);
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            return sellerProfileRepository.save(sellerProfile);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
+            //check if the sellerProfile has a user
+            //if it has a user, check if the user is the same as the current user
+            //if it is the same, save the sellerProfile
+            //if it is not the same, throw an exception
+            //if it does not have a user, set the user to the current user and save the sellerProfile
+            if (sellerProfile.getUser() != null) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                    if (sellerProfile.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                        return sellerProfileRepository.save(sellerProfile);
+                    } else {
+                        throw new RuntimeException("You are not allowed to save this sellerProfile");
+                    }
+                }
+            } else if (SecurityUtils.getCurrentUser().isPresent()) {
+                sellerProfile.setUser(SecurityUtils.getCurrentUser().get());
+                return sellerProfileRepository.save(sellerProfile);
+            }
+            return sellerProfileRepository.save(sellerProfile);
+        }
         return sellerProfileRepository.save(sellerProfile);
     }
 
@@ -45,7 +69,7 @@ public class SellerProfileService {
      */
     public SellerProfile update(SellerProfile sellerProfile) {
         log.debug("Request to update SellerProfile : {}", sellerProfile);
-        return sellerProfileRepository.save(sellerProfile);
+        return save(sellerProfile);
     }
 
     /**

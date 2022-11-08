@@ -1,6 +1,8 @@
 package ch.letslink.security;
 
+import ch.letslink.domain.User;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,27 @@ public final class SecurityUtils {
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
+    }
+
+    /**
+     * Get the user of the current user.
+     *
+     * @return the user of the current user.
+     */
+    public static Optional<User> getCurrentUser() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return Optional.ofNullable(extractUser(securityContext.getAuthentication()));
+    }
+
+    private static User extractUser(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof User) {
+            return (User) principal;
+        }
+        return null;
     }
 
     private static String extractPrincipal(Authentication authentication) {

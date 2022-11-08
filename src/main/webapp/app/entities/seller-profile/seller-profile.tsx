@@ -4,21 +4,25 @@ import { Button, Table } from 'reactstrap';
 import { openFile, byteSize, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT, AUTHORITIES } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ISellerProfile } from 'app/shared/model/seller-profile.model';
 import { getEntities } from './seller-profile.reducer';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { getAccount } from 'app/shared/reducers/authentication';
 
 export const SellerProfile = () => {
   const dispatch = useAppDispatch();
 
   const location = useLocation();
   const navigate = useNavigate();
+  const account = useAppSelector(state => state.authentication.account);
 
   const sellerProfileList = useAppSelector(state => state.sellerProfile.entities);
   const loading = useAppSelector(state => state.sellerProfile.loading);
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
 
   useEffect(() => {
     dispatch(getEntities({}));
@@ -138,30 +142,34 @@ export const SellerProfile = () => {
                           <Translate contentKey="entity.action.view">View</Translate>
                         </span>
                       </Button>
-                      <Button
-                        tag={Link}
-                        to={`/seller-profile/${sellerProfile.id}/edit`}
-                        color="primary"
-                        size="sm"
-                        data-cy="entityEditButton"
-                      >
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
-                      </Button>
-                      <Button
-                        tag={Link}
-                        to={`/seller-profile/${sellerProfile.id}/delete`}
-                        color="danger"
-                        size="sm"
-                        data-cy="entityDeleteButton"
-                      >
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
-                      </Button>
+                      {isAuthenticated && (isAdmin || sellerProfile.user?.id === account?.id) && (
+                        <Button
+                          tag={Link}
+                          to={`/seller-profile/${sellerProfile.id}/edit`}
+                          color="primary"
+                          size="sm"
+                          data-cy="entityEditButton"
+                        >
+                          <FontAwesomeIcon icon="pencil-alt" />{' '}
+                          <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.edit">Edit</Translate>
+                          </span>
+                        </Button>
+                      )}
+                      {isAdmin && (
+                        <Button
+                          tag={Link}
+                          to={`/seller-profile/${sellerProfile.id}/delete`}
+                          color="danger"
+                          size="sm"
+                          data-cy="entityDeleteButton"
+                        >
+                          <FontAwesomeIcon icon="trash" />{' '}
+                          <span className="d-none d-md-inline">
+                            <Translate contentKey="entity.action.delete">Delete</Translate>
+                          </span>
+                        </Button>
+                      )}
                     </div>
                   </td>
                 </tr>

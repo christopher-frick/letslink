@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Login from 'app/modules/login/login';
-import Register from 'app/modules/account/register/register';
 import Activate from 'app/modules/account/activate/activate';
 import PasswordResetInit from 'app/modules/account/password-reset/init/password-reset-init';
 import PasswordResetFinish from 'app/modules/account/password-reset/finish/password-reset-finish';
@@ -14,6 +13,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import SellerProfile from 'app/entities/seller-profile';
 
 const loading = <div>loading ...</div>;
 
@@ -58,7 +58,15 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-        <Route path="*" element={<EntitiesRoutes />} />
+        <Route path="/seller-profile/*" element={<SellerProfile />} />
+        <Route
+          path="*"
+          element={
+            <PrivateRoute hasAnyAuthorities={[AUTHORITIES.USER]}>
+              <EntitiesRoutes />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </ErrorBoundaryRoutes>
     </div>

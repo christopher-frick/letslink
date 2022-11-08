@@ -19,6 +19,9 @@ export const SellerProfileDetail = () => {
   }, []);
 
   const sellerProfileEntity = useAppSelector(state => state.sellerProfile.entity);
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const isAdmin = useAppSelector(state => state.authentication.account.authorities.includes('ROLE_ADMIN'));
+  const account = useAppSelector(state => state.authentication.account);
   return (
     <Row>
       <Col md="8">
@@ -120,12 +123,14 @@ export const SellerProfileDetail = () => {
           </span>
         </Button>
         &nbsp;
-        <Button tag={Link} to={`/seller-profile/${sellerProfileEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" />{' '}
-          <span className="d-none d-md-inline">
-            <Translate contentKey="entity.action.edit">Edit</Translate>
-          </span>
-        </Button>
+        {isAuthenticated && (isAdmin || sellerProfileEntity.user?.id === account?.id) && (
+          <Button tag={Link} to={`/seller-profile/${sellerProfileEntity.id}/edit`} replace color="primary">
+            <FontAwesomeIcon icon="pencil-alt" />{' '}
+            <span className="d-none d-md-inline">
+              <Translate contentKey="entity.action.edit">Edit</Translate>
+            </span>
+          </Button>
+        )}
       </Col>
     </Row>
   );

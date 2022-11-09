@@ -9,8 +9,6 @@ export interface ISellerProfile {
   firstName?: string | null;
   lastName?: string | null;
   stripeAccountId?: string | null;
-  isSeller?: boolean | null;
-  chargesEnabled?: boolean | null;
   artistName?: string | null;
   pictureContentType?: string | null;
   picture?: string | null;
@@ -24,7 +22,4 @@ export interface ISellerProfile {
   projectLinks?: IProjectLink[] | null;
 }
 
-export const defaultValue: Readonly<ISellerProfile> = {
-  isSeller: false,
-  chargesEnabled: false,
-};
+export const defaultValue: Readonly<ISellerProfile> = {};

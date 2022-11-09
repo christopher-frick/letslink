@@ -1,7 +1,7 @@
 {
   "home": {
     "title": "Welcome, to Let's Link!",
-    "subtitle": "This is our homepage",
+    "subtitle": "Let's link with more people and fans across the world.\n\nUpdate your profile with a link in your bio that automatically displays your information's like your projects, social media, merch and more.",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },

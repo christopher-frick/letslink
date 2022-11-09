@@ -2,6 +2,8 @@ package ch.letslink.service;
 
 import ch.letslink.domain.SellerProfile;
 import ch.letslink.repository.SellerProfileRepository;
+import ch.letslink.security.AuthoritiesConstants;
+import ch.letslink.security.SecurityUtils;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -34,6 +36,28 @@ public class SellerProfileService {
      */
     public SellerProfile save(SellerProfile sellerProfile) {
         log.debug("Request to save SellerProfile : {}", sellerProfile);
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            return sellerProfileRepository.save(sellerProfile);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
+            //check if the sellerProfile has a user
+            //if it has a user, check if the user is the same as the current user
+            //if it is the same, save the sellerProfile
+            //if it is not the same, throw an exception
+            //if it does not have a user, set the user to the current user and save the sellerProfile
+            if (sellerProfile.getUser() != null) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                    if (sellerProfile.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                        return sellerProfileRepository.save(sellerProfile);
+                    } else {
+                        throw new RuntimeException("You are not allowed to save this sellerProfile");
+                    }
+                }
+            } else if (SecurityUtils.getCurrentUser().isPresent()) {
+                sellerProfile.setUser(SecurityUtils.getCurrentUser().get());
+                return sellerProfileRepository.save(sellerProfile);
+            }
+            return sellerProfileRepository.save(sellerProfile);
+        }
         return sellerProfileRepository.save(sellerProfile);
     }
 
@@ -45,7 +69,7 @@ public class SellerProfileService {
      */
     public SellerProfile update(SellerProfile sellerProfile) {
         log.debug("Request to update SellerProfile : {}", sellerProfile);
-        return sellerProfileRepository.save(sellerProfile);
+        return save(sellerProfile);
     }
 
     /**
@@ -68,12 +92,6 @@ public class SellerProfileService {
                 }
                 if (sellerProfile.getStripeAccountId() != null) {
                     existingSellerProfile.setStripeAccountId(sellerProfile.getStripeAccountId());
-                }
-                if (sellerProfile.getIsSeller() != null) {
-                    existingSellerProfile.setIsSeller(sellerProfile.getIsSeller());
-                }
-                if (sellerProfile.getChargesEnabled() != null) {
-                    existingSellerProfile.setChargesEnabled(sellerProfile.getChargesEnabled());
                 }
                 if (sellerProfile.getArtistName() != null) {
                     existingSellerProfile.setArtistName(sellerProfile.getArtistName());
@@ -144,6 +162,29 @@ public class SellerProfileService {
      */
     public void delete(Long id) {
         log.debug("Request to delete SellerProfile : {}", id);
-        sellerProfileRepository.deleteById(id);
+        // check if the current user is has admin authority
+        // if it does, delete the sellerProfile
+        // check if the current user is has user authority
+        // if it does, check if the sellerProfile has a user
+        // if it does, check if the sellerProfile user is the same as the current user
+        // if it is, delete the sellerProfile
+        // if it is not, throw an exception
+        // if it does not have a user, throw an exception
+        // if it does not have user authority, throw an exception
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            sellerProfileRepository.findById(id).ifPresent(sellerProfileRepository::delete);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
+            if (sellerProfileRepository.findById(id).isPresent()) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent() && sellerProfileRepository.findById(id).isPresent()) {
+                    if (sellerProfileRepository.findById(id).get().getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                        sellerProfileRepository.deleteById(id);
+                    } else {
+                        throw new RuntimeException("You are not allowed to delete this sellerProfile");
+                    }
+                }
+            } else {
+                throw new RuntimeException("You are not allowed to delete this sellerProfile");
+            }
+        }
     }
 }

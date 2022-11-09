@@ -3,8 +3,6 @@ entity SellerProfile {
     firstName String 
     lastName String 
     stripeAccountId String
-    isSeller Boolean
-    chargesEnabled Boolean
     artistName String 
     picture ImageBlob 
     description String 

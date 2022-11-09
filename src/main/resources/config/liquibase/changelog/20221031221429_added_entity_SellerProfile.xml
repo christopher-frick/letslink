@@ -23,12 +23,6 @@
             <column name="stripe_account_id" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="is_seller" type="boolean">
-                <constraints nullable="true" />
-            </column>
-            <column name="charges_enabled" type="boolean">
-                <constraints nullable="true" />
-            </column>
             <column name="artist_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -80,8 +74,6 @@
             <column name="first_name" type="string"/>
             <column name="last_name" type="string"/>
             <column name="stripe_account_id" type="string"/>
-            <column name="is_seller" type="boolean"/>
-            <column name="charges_enabled" type="boolean"/>
             <column name="artist_name" type="string"/>
             <column name="picture" type="blob"/>
             <column name="picture_content_type" type="string"/>

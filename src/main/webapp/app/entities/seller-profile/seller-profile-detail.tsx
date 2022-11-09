@@ -4,10 +4,11 @@ import { Button, Row, Col } from 'reactstrap';
 import { Translate, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT, AUTHORITIES } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './seller-profile.reducer';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
 export const SellerProfileDetail = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,9 @@ export const SellerProfileDetail = () => {
   }, []);
 
   const sellerProfileEntity = useAppSelector(state => state.sellerProfile.entity);
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
+  const account = useAppSelector(state => state.authentication.account);
   return (
     <Row>
       <Col md="8">
@@ -50,18 +54,6 @@ export const SellerProfileDetail = () => {
             </span>
           </dt>
           <dd>{sellerProfileEntity.stripeAccountId}</dd>
-          <dt>
-            <span id="isSeller">
-              <Translate contentKey="letslinkApp.sellerProfile.isSeller">Is Seller</Translate>
-            </span>
-          </dt>
-          <dd>{sellerProfileEntity.isSeller ? 'true' : 'false'}</dd>
-          <dt>
-            <span id="chargesEnabled">
-              <Translate contentKey="letslinkApp.sellerProfile.chargesEnabled">Charges Enabled</Translate>
-            </span>
-          </dt>
-          <dd>{sellerProfileEntity.chargesEnabled ? 'true' : 'false'}</dd>
           <dt>
             <span id="artistName">
               <Translate contentKey="letslinkApp.sellerProfile.artistName">Artist Name</Translate>
@@ -132,12 +124,14 @@ export const SellerProfileDetail = () => {
           </span>
         </Button>
         &nbsp;
-        <Button tag={Link} to={`/seller-profile/${sellerProfileEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" />{' '}
-          <span className="d-none d-md-inline">
-            <Translate contentKey="entity.action.edit">Edit</Translate>
-          </span>
-        </Button>
+        {isAuthenticated && (isAdmin || sellerProfileEntity.user?.id === account?.id) && (
+          <Button tag={Link} to={`/seller-profile/${sellerProfileEntity.id}/edit`} replace color="primary">
+            <FontAwesomeIcon icon="pencil-alt" />{' '}
+            <span className="d-none d-md-inline">
+              <Translate contentKey="entity.action.edit">Edit</Translate>
+            </span>
+          </Button>
+        )}
       </Col>
     </Row>
   );

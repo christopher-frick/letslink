@@ -39,12 +39,6 @@ public class SellerProfile implements Serializable {
     @Column(name = "stripe_account_id")
     private String stripeAccountId;
 
-    @Column(name = "is_seller")
-    private Boolean isSeller;
-
-    @Column(name = "charges_enabled")
-    private Boolean chargesEnabled;
-
     @Column(name = "artist_name")
     private String artistName;
 
@@ -139,32 +133,6 @@ public class SellerProfile implements Serializable {
 
     public void setStripeAccountId(String stripeAccountId) {
         this.stripeAccountId = stripeAccountId;
-    }
-
-    public Boolean getIsSeller() {
-        return this.isSeller;
-    }
-
-    public SellerProfile isSeller(Boolean isSeller) {
-        this.setIsSeller(isSeller);
-        return this;
-    }
-
-    public void setIsSeller(Boolean isSeller) {
-        this.isSeller = isSeller;
-    }
-
-    public Boolean getChargesEnabled() {
-        return this.chargesEnabled;
-    }
-
-    public SellerProfile chargesEnabled(Boolean chargesEnabled) {
-        this.setChargesEnabled(chargesEnabled);
-        return this;
-    }
-
-    public void setChargesEnabled(Boolean chargesEnabled) {
-        this.chargesEnabled = chargesEnabled;
     }
 
     public String getArtistName() {
@@ -373,8 +341,6 @@ public class SellerProfile implements Serializable {
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", stripeAccountId='" + getStripeAccountId() + "'" +
-            ", isSeller='" + getIsSeller() + "'" +
-            ", chargesEnabled='" + getChargesEnabled() + "'" +
             ", artistName='" + getArtistName() + "'" +
             ", picture='" + getPicture() + "'" +
             ", pictureContentType='" + getPictureContentType() + "'" +

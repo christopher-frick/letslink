@@ -14,8 +14,6 @@ export default class SellerProfileUpdatePage {
   firstNameInput: ElementFinder = element(by.css('input#seller-profile-firstName'));
   lastNameInput: ElementFinder = element(by.css('input#seller-profile-lastName'));
   stripeAccountIdInput: ElementFinder = element(by.css('input#seller-profile-stripeAccountId'));
-  isSellerInput: ElementFinder = element(by.css('input#seller-profile-isSeller'));
-  chargesEnabledInput: ElementFinder = element(by.css('input#seller-profile-chargesEnabled'));
   artistNameInput: ElementFinder = element(by.css('input#seller-profile-artistName'));
   pictureInput: ElementFinder = element(by.css('input#seller-profile-picture'));
   descriptionInput: ElementFinder = element(by.css('input#seller-profile-description'));
@@ -53,12 +51,6 @@ export default class SellerProfileUpdatePage {
     return this.stripeAccountIdInput.getAttribute('value');
   }
 
-  getIsSellerInput() {
-    return this.isSellerInput;
-  }
-  getChargesEnabledInput() {
-    return this.chargesEnabledInput;
-  }
   async setArtistNameInput(artistName) {
     await this.artistNameInput.sendKeys(artistName);
   }
@@ -156,20 +148,6 @@ export default class SellerProfileUpdatePage {
     await this.setLastNameInput('lastName');
     await waitUntilDisplayed(this.saveButton);
     await this.setStripeAccountIdInput('stripeAccountId');
-    await waitUntilDisplayed(this.saveButton);
-    const selectedIsSeller = await this.getIsSellerInput().isSelected();
-    if (selectedIsSeller) {
-      await this.getIsSellerInput().click();
-    } else {
-      await this.getIsSellerInput().click();
-    }
-    await waitUntilDisplayed(this.saveButton);
-    const selectedChargesEnabled = await this.getChargesEnabledInput().isSelected();
-    if (selectedChargesEnabled) {
-      await this.getChargesEnabledInput().click();
-    } else {
-      await this.getChargesEnabledInput().click();
-    }
     await waitUntilDisplayed(this.saveButton);
     await this.setArtistNameInput('artistName');
     await waitUntilDisplayed(this.saveButton);

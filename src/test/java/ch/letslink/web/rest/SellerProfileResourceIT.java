@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import ch.letslink.IntegrationTest;
 import ch.letslink.domain.SellerProfile;
+import ch.letslink.domain.User;
 import ch.letslink.domain.enumeration.City;
 import ch.letslink.domain.enumeration.Country;
 import ch.letslink.repository.SellerProfileRepository;
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
@@ -50,12 +53,6 @@ class SellerProfileResourceIT {
 
     private static final String DEFAULT_STRIPE_ACCOUNT_ID = "AAAAAAAAAA";
     private static final String UPDATED_STRIPE_ACCOUNT_ID = "BBBBBBBBBB";
-
-    private static final Boolean DEFAULT_IS_SELLER = false;
-    private static final Boolean UPDATED_IS_SELLER = true;
-
-    private static final Boolean DEFAULT_CHARGES_ENABLED = false;
-    private static final Boolean UPDATED_CHARGES_ENABLED = true;
 
     private static final String DEFAULT_ARTIST_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ARTIST_NAME = "BBBBBBBBBB";
@@ -114,8 +111,6 @@ class SellerProfileResourceIT {
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
             .stripeAccountId(DEFAULT_STRIPE_ACCOUNT_ID)
-            .isSeller(DEFAULT_IS_SELLER)
-            .chargesEnabled(DEFAULT_CHARGES_ENABLED)
             .artistName(DEFAULT_ARTIST_NAME)
             .picture(DEFAULT_PICTURE)
             .pictureContentType(DEFAULT_PICTURE_CONTENT_TYPE)
@@ -138,8 +133,6 @@ class SellerProfileResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .stripeAccountId(UPDATED_STRIPE_ACCOUNT_ID)
-            .isSeller(UPDATED_IS_SELLER)
-            .chargesEnabled(UPDATED_CHARGES_ENABLED)
             .artistName(UPDATED_ARTIST_NAME)
             .picture(UPDATED_PICTURE)
             .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE)
@@ -172,8 +165,6 @@ class SellerProfileResourceIT {
         assertThat(testSellerProfile.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
         assertThat(testSellerProfile.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testSellerProfile.getStripeAccountId()).isEqualTo(DEFAULT_STRIPE_ACCOUNT_ID);
-        assertThat(testSellerProfile.getIsSeller()).isEqualTo(DEFAULT_IS_SELLER);
-        assertThat(testSellerProfile.getChargesEnabled()).isEqualTo(DEFAULT_CHARGES_ENABLED);
         assertThat(testSellerProfile.getArtistName()).isEqualTo(DEFAULT_ARTIST_NAME);
         assertThat(testSellerProfile.getPicture()).isEqualTo(DEFAULT_PICTURE);
         assertThat(testSellerProfile.getPictureContentType()).isEqualTo(DEFAULT_PICTURE_CONTENT_TYPE);
@@ -217,8 +208,6 @@ class SellerProfileResourceIT {
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
             .andExpect(jsonPath("$.[*].stripeAccountId").value(hasItem(DEFAULT_STRIPE_ACCOUNT_ID)))
-            .andExpect(jsonPath("$.[*].isSeller").value(hasItem(DEFAULT_IS_SELLER.booleanValue())))
-            .andExpect(jsonPath("$.[*].chargesEnabled").value(hasItem(DEFAULT_CHARGES_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].artistName").value(hasItem(DEFAULT_ARTIST_NAME)))
             .andExpect(jsonPath("$.[*].pictureContentType").value(hasItem(DEFAULT_PICTURE_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].picture").value(hasItem(Base64Utils.encodeToString(DEFAULT_PICTURE))))
@@ -261,8 +250,6 @@ class SellerProfileResourceIT {
             .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
             .andExpect(jsonPath("$.stripeAccountId").value(DEFAULT_STRIPE_ACCOUNT_ID))
-            .andExpect(jsonPath("$.isSeller").value(DEFAULT_IS_SELLER.booleanValue()))
-            .andExpect(jsonPath("$.chargesEnabled").value(DEFAULT_CHARGES_ENABLED.booleanValue()))
             .andExpect(jsonPath("$.artistName").value(DEFAULT_ARTIST_NAME))
             .andExpect(jsonPath("$.pictureContentType").value(DEFAULT_PICTURE_CONTENT_TYPE))
             .andExpect(jsonPath("$.picture").value(Base64Utils.encodeToString(DEFAULT_PICTURE)))
@@ -296,8 +283,6 @@ class SellerProfileResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .stripeAccountId(UPDATED_STRIPE_ACCOUNT_ID)
-            .isSeller(UPDATED_IS_SELLER)
-            .chargesEnabled(UPDATED_CHARGES_ENABLED)
             .artistName(UPDATED_ARTIST_NAME)
             .picture(UPDATED_PICTURE)
             .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE)
@@ -322,8 +307,6 @@ class SellerProfileResourceIT {
         assertThat(testSellerProfile.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testSellerProfile.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testSellerProfile.getStripeAccountId()).isEqualTo(UPDATED_STRIPE_ACCOUNT_ID);
-        assertThat(testSellerProfile.getIsSeller()).isEqualTo(UPDATED_IS_SELLER);
-        assertThat(testSellerProfile.getChargesEnabled()).isEqualTo(UPDATED_CHARGES_ENABLED);
         assertThat(testSellerProfile.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
         assertThat(testSellerProfile.getPicture()).isEqualTo(UPDATED_PICTURE);
         assertThat(testSellerProfile.getPictureContentType()).isEqualTo(UPDATED_PICTURE_CONTENT_TYPE);
@@ -405,10 +388,9 @@ class SellerProfileResourceIT {
         partialUpdatedSellerProfile
             .lastName(UPDATED_LAST_NAME)
             .stripeAccountId(UPDATED_STRIPE_ACCOUNT_ID)
-            .isSeller(UPDATED_IS_SELLER)
             .artistName(UPDATED_ARTIST_NAME)
-            .picture(UPDATED_PICTURE)
-            .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE);
+            .description(UPDATED_DESCRIPTION)
+            .email(UPDATED_EMAIL);
 
         restSellerProfileMockMvc
             .perform(
@@ -425,13 +407,11 @@ class SellerProfileResourceIT {
         assertThat(testSellerProfile.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
         assertThat(testSellerProfile.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testSellerProfile.getStripeAccountId()).isEqualTo(UPDATED_STRIPE_ACCOUNT_ID);
-        assertThat(testSellerProfile.getIsSeller()).isEqualTo(UPDATED_IS_SELLER);
-        assertThat(testSellerProfile.getChargesEnabled()).isEqualTo(DEFAULT_CHARGES_ENABLED);
         assertThat(testSellerProfile.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
-        assertThat(testSellerProfile.getPicture()).isEqualTo(UPDATED_PICTURE);
-        assertThat(testSellerProfile.getPictureContentType()).isEqualTo(UPDATED_PICTURE_CONTENT_TYPE);
-        assertThat(testSellerProfile.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testSellerProfile.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testSellerProfile.getPicture()).isEqualTo(DEFAULT_PICTURE);
+        assertThat(testSellerProfile.getPictureContentType()).isEqualTo(DEFAULT_PICTURE_CONTENT_TYPE);
+        assertThat(testSellerProfile.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testSellerProfile.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testSellerProfile.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testSellerProfile.getCity()).isEqualTo(DEFAULT_CITY);
         assertThat(testSellerProfile.getCountry()).isEqualTo(DEFAULT_COUNTRY);
@@ -453,8 +433,6 @@ class SellerProfileResourceIT {
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .stripeAccountId(UPDATED_STRIPE_ACCOUNT_ID)
-            .isSeller(UPDATED_IS_SELLER)
-            .chargesEnabled(UPDATED_CHARGES_ENABLED)
             .artistName(UPDATED_ARTIST_NAME)
             .picture(UPDATED_PICTURE)
             .pictureContentType(UPDATED_PICTURE_CONTENT_TYPE)
@@ -479,8 +457,6 @@ class SellerProfileResourceIT {
         assertThat(testSellerProfile.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testSellerProfile.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testSellerProfile.getStripeAccountId()).isEqualTo(UPDATED_STRIPE_ACCOUNT_ID);
-        assertThat(testSellerProfile.getIsSeller()).isEqualTo(UPDATED_IS_SELLER);
-        assertThat(testSellerProfile.getChargesEnabled()).isEqualTo(UPDATED_CHARGES_ENABLED);
         assertThat(testSellerProfile.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
         assertThat(testSellerProfile.getPicture()).isEqualTo(UPDATED_PICTURE);
         assertThat(testSellerProfile.getPictureContentType()).isEqualTo(UPDATED_PICTURE_CONTENT_TYPE);
@@ -548,14 +524,19 @@ class SellerProfileResourceIT {
         List<SellerProfile> sellerProfileList = sellerProfileRepository.findAll();
         assertThat(sellerProfileList).hasSize(databaseSizeBeforeUpdate);
     }
-
-    @Test
+    /* @Test
     @Transactional
     void deleteSellerProfile() throws Exception {
         // Initialize the database
         sellerProfileRepository.saveAndFlush(sellerProfile);
 
         int databaseSizeBeforeDelete = sellerProfileRepository.findAll().size();
+
+        // Delete the sellerProfile with User Resource entity manager
+        // add user to seller profile
+        UserResource userResource = new UserResource();
+
+
 
         // Delete the sellerProfile
         restSellerProfileMockMvc
@@ -564,6 +545,7 @@ class SellerProfileResourceIT {
 
         // Validate the database contains one less item
         List<SellerProfile> sellerProfileList = sellerProfileRepository.findAll();
+
         assertThat(sellerProfileList).hasSize(databaseSizeBeforeDelete - 1);
-    }
+    }*/
 }

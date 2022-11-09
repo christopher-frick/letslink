@@ -14,6 +14,8 @@ import { ISellerProfile } from 'app/shared/model/seller-profile.model';
 import { City } from 'app/shared/model/enumerations/city.model';
 import { Country } from 'app/shared/model/enumerations/country.model';
 import { getEntity, updateEntity, createEntity, reset } from './seller-profile.reducer';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { AUTHORITIES } from 'app/config/constants';
 
 export const SellerProfileUpdate = () => {
   const dispatch = useAppDispatch();
@@ -24,13 +26,16 @@ export const SellerProfileUpdate = () => {
   const isNew = id === undefined;
 
   const users = useAppSelector(state => state.userManagement.users);
+  const account = useAppSelector(state => state.authentication.account);
   const sellerProfileEntity = useAppSelector(state => state.sellerProfile.entity);
   const loading = useAppSelector(state => state.sellerProfile.loading);
   const updating = useAppSelector(state => state.sellerProfile.updating);
   const updateSuccess = useAppSelector(state => state.sellerProfile.updateSuccess);
   const cityValues = Object.keys(City);
   const countryValues = Object.keys(Country);
-
+  const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const hasAlreadySellerProfile = useAppSelector(state => state.sellerProfile.hasAlreadySellerProfile);
   const handleClose = () => {
     navigate('/seller-profile');
   };
@@ -122,22 +127,6 @@ export const SellerProfileUpdate = () => {
                 type="text"
               />
               <ValidatedField
-                label={translate('letslinkApp.sellerProfile.isSeller')}
-                id="seller-profile-isSeller"
-                name="isSeller"
-                data-cy="isSeller"
-                check
-                type="checkbox"
-              />
-              <ValidatedField
-                label={translate('letslinkApp.sellerProfile.chargesEnabled')}
-                id="seller-profile-chargesEnabled"
-                name="chargesEnabled"
-                data-cy="chargesEnabled"
-                check
-                type="checkbox"
-              />
-              <ValidatedField
                 label={translate('letslinkApp.sellerProfile.artistName')}
                 id="seller-profile-artistName"
                 name="artistName"
@@ -169,6 +158,10 @@ export const SellerProfileUpdate = () => {
                   pattern: {
                     value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
                     message: translate('entity.validation.pattern', { pattern: '^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$' }),
+                  },
+                  required: {
+                    message: 'Please enter your email address',
+                    value: true,
                   },
                 }}
               />
@@ -211,15 +204,31 @@ export const SellerProfileUpdate = () => {
                 data-cy="user"
                 label={translate('letslinkApp.sellerProfile.user')}
                 type="select"
+                /*disabled={isAdmin ? false : true}*/
               >
-                <option value="" key="0" />
-                {users
-                  ? users.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.login}
-                      </option>
-                    ))
-                  : null}
+                {
+                  // isauthenticated is used to prevent the user from seeing the user field when he is not logged in
+                  isAuthenticated &&
+                    // if the user is logged in has admin rights, he can see all users
+                    (isAdmin
+                      ? users &&
+                        users.length > 0 &&
+                        users.map(user => (
+                          <option value={user.id} key={user.id}>
+                            {user.login}
+                          </option>
+                        ))
+                      : // if the user is logged in but has no admin rights, he can only see his own user
+                        users &&
+                        users.length > 0 &&
+                        users
+                          .filter(user => user.id === account.id)
+                          .map(user => (
+                            <option value={user.id} key={user.id}>
+                              {user.login}
+                            </option>
+                          )))
+                }
               </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/seller-profile" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />

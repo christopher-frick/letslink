@@ -85,9 +85,9 @@ export const SellerProfile = () => {
       {sellerProfileList && sellerProfileList.length > 0 ? (
         <Row>
           {sellerProfileList.map((sellerProfile, i) => (
-            <Col md="6" tag={Link} to={`/seller-profile/${sellerProfile.id}`}>
-              <div className="card text-white bg-dark mb-3" key={`entity-${i}`} data-cy="entityTable">
-                <div className="card-header content-center align-content-center">
+            <Col md="6" key={`entity-${i}`} tag={Link} to={`/seller-profile/${sellerProfile.id}`}>
+              <div className="card text-white bg-dark mb-3">
+                <div className="card-header text-center">
                   {sellerProfile?.pictureContentType ? (
                     <img src={`data:${sellerProfile.pictureContentType};base64,${sellerProfile.picture}`} className="img-fluid" />
                   ) : null}

@@ -24,9 +24,6 @@ export const SellerProfile = () => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
 
-  //check if the connected user has already a seller profile
-  //if yes seller profile id is stored in sellerProfileId
-  //if no sellerProfileId is null
   const sellerProfileId = sellerProfileList.find(sellerProfile => sellerProfile.user?.id === account?.id)?.id;
 
   useEffect(() => {

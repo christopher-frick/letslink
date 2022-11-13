@@ -44,7 +44,7 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
-          {/*<Route path="register" element={<Register />} />*/}
+          {/* <Route path="register" element={<Register />} />*/}
           <Route path="activate" element={<Activate />} />
           <Route path="reset">
             <Route path="request" element={<PasswordResetInit />} />

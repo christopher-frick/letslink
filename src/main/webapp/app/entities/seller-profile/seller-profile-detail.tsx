@@ -79,7 +79,7 @@ export const SellerProfileDetail = () => {
         </div>
       </Col>
 
-      {/*<Col md="8">
+      {/* <Col md="8">
         <h2 data-cy="sellerProfileDetailsHeading">
           <Translate contentKey="letslinkApp.sellerProfile.detail.title">SellerProfile</Translate>
         </h2>

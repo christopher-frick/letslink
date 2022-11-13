@@ -35,12 +35,12 @@ export const Home = () => {
             </Translate>
           </Alert>
 
-          {/*<Alert color="warning">
+          {/* <Alert color="warning">
                 <Translate contentKey="global.messages.info.register.noaccount">You do not have an account yet?</Translate>&nbsp;
                 <Link to="/account/register" className="alert-link">
                   <Translate contentKey="global.messages.info.register.link">Register a new account</Translate>
                 </Link>
-              </Alert>*/}
+              </Alert> */}
         </div>
       )}
       <h2>
@@ -58,7 +58,7 @@ export const Home = () => {
         </Button>
       )}
       <br />
-      <Button tag={Link} to="/seller-profile/" color="secondary" size="lg" className="mr-3">
+      <Button tag={Link} to="profiles/" color="secondary" size="lg" className="mr-3">
         Start Browsing
       </Button>
       <p>
@@ -75,31 +75,6 @@ export const Home = () => {
             <Translate contentKey="home.link.prototype">Figma clickable prototype</Translate>
           </a>
         </li>
-        {/*<li>
-              <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
-              </a>
-            </li>*/}
       </ul>
     </Row>
   );

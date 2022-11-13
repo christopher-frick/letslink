@@ -45,10 +45,18 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: mail.infomaniak.com
+    protocol: smtp
+    port: 465
+    username: info@letslink.ch
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
   thymeleaf:
     cache: true
 

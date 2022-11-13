@@ -11,7 +11,6 @@ const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 export const initialState = {
   loading: false,
   isAuthenticated: false,
-  hasAlreadySellerProfile: false,
   loginSuccess: false,
   loginError: false, // Errors returned from server side
   showModalLogin: false,
@@ -25,12 +24,6 @@ export const initialState = {
 export type AuthenticationState = Readonly<typeof initialState>;
 
 // Actions
-
-//verify if user has already seller profile
-export const hasAlreadySellerProfile = createAsyncThunk('authentication/hasAlreadySellerProfile', async (entity: any, thunkAPI) => {
-  const result = await axios.get(`api/seller-profiles/has-seller-profile`);
-  return result.data;
-});
 
 export const getSession = (): AppThunk => async (dispatch, getState) => {
   await dispatch(getAccount());

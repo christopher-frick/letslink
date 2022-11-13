@@ -44,7 +44,7 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
-          {/*<Route path="register" element={<Register />} />*/}
+          {/* <Route path="register" element={<Register />} />*/}
           <Route path="activate" element={<Activate />} />
           <Route path="reset">
             <Route path="request" element={<PasswordResetInit />} />
@@ -59,7 +59,7 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/seller-profile/*" element={<SellerProfile />} />
+        <Route path="/profiles/*" element={<SellerProfile />} />
         <Route path="/to/:id" element={<SellerProfileDetail />} />
         <Route
           path="*"

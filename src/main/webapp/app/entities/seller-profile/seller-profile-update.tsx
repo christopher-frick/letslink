@@ -204,7 +204,6 @@ export const SellerProfileUpdate = () => {
                 data-cy="user"
                 label={translate('letslinkApp.sellerProfile.user')}
                 type="select"
-                /*disabled={isAdmin ? false : true}*/
               >
                 {
                   // isauthenticated is used to prevent the user from seeing the user field when he is not logged in

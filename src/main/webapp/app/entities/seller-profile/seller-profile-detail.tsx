@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
+import { Button, Row, Col, Card } from 'reactstrap';
 import { Translate, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './seller-profile.reducer';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { types } from 'sass';
+import Color = types.Color;
 
 export const SellerProfileDetail = () => {
   const dispatch = useAppDispatch();
@@ -23,9 +25,61 @@ export const SellerProfileDetail = () => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const account = useAppSelector(state => state.authentication.account);
+
+  const buttonGroup = sellerProfile => {
+    return (
+      <div className="btn-group flex-btn-group-container">
+        {isAuthenticated && (isAdmin || sellerProfile.user?.id === account?.id) && (
+          <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+            <FontAwesomeIcon icon="pencil-alt" />{' '}
+            <span className="d-none d-md-inline">
+              <Translate contentKey="entity.action.edit">Edit</Translate>
+            </span>
+          </Button>
+        )}
+        {isAuthenticated &&
+          ((isAdmin && (
+            <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+              <FontAwesomeIcon icon="trash" />{' '}
+              <span className="d-none d-md-inline">
+                <Translate contentKey="entity.action.delete">Delete</Translate>
+              </span>
+            </Button>
+          )) ||
+            (sellerProfile.user?.id === account?.id && (
+              <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                <FontAwesomeIcon icon="trash" />{' '}
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="entity.action.delete">Delete</Translate>
+                </span>
+              </Button>
+            )))}
+      </div>
+    );
+  };
+
   return (
     <Row>
-      <Col md="8">
+      <Col>
+        <div className="card text-white bg-dark mb-3">
+          <div className="card-header text-center">
+            {isAuthenticated && <div className="card-footer">{buttonGroup(sellerProfileEntity)}</div>}
+            {sellerProfileEntity?.pictureContentType ? (
+              <img src={`data:${sellerProfileEntity.pictureContentType};base64,${sellerProfileEntity.picture}`} className="img-fluid" />
+            ) : null}
+          </div>
+          <div className="card-body">
+            <h4 className="card-title text-center">
+              {sellerProfileEntity?.artistName ? sellerProfileEntity.artistName : 'No Artist Name!'}
+            </h4>
+            <p className="card-text text-center">{sellerProfileEntity.city + ' / ' + sellerProfileEntity.country}</p>
+            <p className="card-text">{sellerProfileEntity?.description ? sellerProfileEntity.description : 'No description!'}</p>
+          </div>
+          <p>{'www.letlink.ch/to/' + sellerProfileEntity.id}</p>
+        </div>
+      </Col>
+
+      {/* <Col md="8">
         <h2 data-cy="sellerProfileDetailsHeading">
           <Translate contentKey="letslinkApp.sellerProfile.detail.title">SellerProfile</Translate>
         </h2>
@@ -132,7 +186,7 @@ export const SellerProfileDetail = () => {
             </span>
           </Button>
         )}
-      </Col>
+      </Col>*/}
     </Row>
   );
 };

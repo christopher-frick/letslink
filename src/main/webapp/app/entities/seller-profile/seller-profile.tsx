@@ -24,6 +24,8 @@ export const SellerProfile = () => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
 
+  const sellerProfileId = sellerProfileList.find(sellerProfile => sellerProfile.user?.id === account?.id)?.id;
+
   useEffect(() => {
     dispatch(getEntities({}));
   }, []);
@@ -67,25 +69,40 @@ export const SellerProfile = () => {
   return (
     <div>
       <h2 id="seller-profile-heading" data-cy="SellerProfileHeading">
-        <Translate contentKey="letslinkApp.sellerProfile.home.title">Seller Profiles</Translate>
+        <Translate contentKey="letslinkApp.sellerProfile.home.title">Profiles</Translate>
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="letslinkApp.sellerProfile.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          {isAuthenticated && (
-            <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          {isAuthenticated && isAdmin ? (
+            <Button
+              tag={Link}
+              to="/seller-profile/new"
+              className="btn btn-primary jh-create-entity"
+              id="jh-create-entity"
+              data-cy="entityCreateButton"
+            >
               <FontAwesomeIcon icon="plus" />
               &nbsp;
               <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
-            </Link>
+            </Button>
+          ) : (
+            sellerProfileId !== undefined && (
+              <Button tag={Link} to={`/seller-profile/${sellerProfileId}/edit`} color="primary" data-cy="entityEditButton">
+                <FontAwesomeIcon icon="pencil-alt" />{' '}
+                <span className="d-none d-md-inline">
+                  <Translate contentKey="letslinkApp.sellerProfile.home.createOrEditLabel">Create or edit a Seller Profile</Translate>
+                </span>
+              </Button>
+            )
           )}
         </div>
       </h2>
       {sellerProfileList && sellerProfileList.length > 0 ? (
         <Row>
           {sellerProfileList.map((sellerProfile, i) => (
-            <Col md="6" key={`entity-${i}`} tag={Link} to={`/seller-profile/${sellerProfile.id}`}>
+            <Col md="6" key={`entity-${i}`} tag={Link} to={`/profiles/${sellerProfile.id}`}>
               <div className="card text-white bg-dark mb-3">
                 <div className="card-header text-center">
                   {sellerProfile?.pictureContentType ? (

@@ -14,6 +14,7 @@ jobs:
       STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_APIKEY_TEST }}
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_APIKEY_TEST }}
       JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET: ${{ secrets.JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET }}
+      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

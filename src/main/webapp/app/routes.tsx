@@ -59,7 +59,7 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-        <Route path="/seller-profile/*" element={<SellerProfile />} />
+        <Route path="/profiles/*" element={<SellerProfile />} />
         <Route path="/to/:id" element={<SellerProfileDetail />} />
         <Route
           path="*"

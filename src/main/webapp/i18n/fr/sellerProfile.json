@@ -2,7 +2,7 @@
   "letslinkApp": {
     "sellerProfile": {
       "home": {
-        "title": "SellerProfiles",
+        "title": "Profiles",
         "refreshListLabel": "Actualiser la liste",
         "createLabel": "Créer un nouveau Seller Profile",
         "createOrEditLabel": "Créer ou éditer un Seller Profile",

@@ -53,6 +53,10 @@ spring:
     properties:
       mail:
         smtp:
+          protocol: smtp
+          ssl:
+            enable: true
+            trust: mail.infomaniak.com
           auth: true
           starttls:
             enable: true

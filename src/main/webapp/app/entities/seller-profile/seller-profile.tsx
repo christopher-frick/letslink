@@ -115,7 +115,7 @@ export const SellerProfile = () => {
       {sellerProfileList && sellerProfileList.length > 0 ? (
         <Row>
           {sellerProfileList.map((sellerProfile, i) => (
-            <Col md="6" key={`entity-${i}`} tag={Link} to={`/profiles/${sellerProfile.id}`}>
+            <Col lg="6" key={`entity-${i}`} tag={Link} to={`/profiles/${sellerProfile.id}`}>
               <div className="card text-white bg-dark mb-3">
                 <div className="card-header text-center">
                   {sellerProfile?.pictureContentType ? (

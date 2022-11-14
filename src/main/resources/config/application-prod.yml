@@ -113,12 +113,12 @@ jhipster:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
         # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-        base64-secret: YmIzMmFhNjA0ODYzOTAxNTUyZDFhNGVhNzhlYTk1ZGExZGI4M2UyNmE1MjlkZmI3MDRiNThhZjJlZGQyYjliYjlhZDFjZjdmOTk4MjAzYmJlODJjZjVlNTg2ZGQxN2E0OThhMDUxNTE5ZjdmOWE2MDVjNWY0YWIxMWViMWU2OWU=
+        base64-secret: ${JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET}
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://my-server-url-to-change # Modify according to your server's URL
+    base-url: https://beta-letslink.herokuapp.com # Modify according to your server's URL
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

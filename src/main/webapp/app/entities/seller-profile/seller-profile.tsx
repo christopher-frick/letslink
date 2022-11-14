@@ -75,28 +75,29 @@ export const SellerProfile = () => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="letslinkApp.sellerProfile.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          {isAuthenticated && isAdmin ? (
-            <Button
-              tag={Link}
-              to="/seller-profile/new"
-              className="btn btn-primary jh-create-entity"
-              id="jh-create-entity"
-              data-cy="entityCreateButton"
-            >
-              <FontAwesomeIcon icon="plus" />
-              &nbsp;
-              <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
-            </Button>
-          ) : (
-            sellerProfileId !== undefined && (
-              <Button tag={Link} to={`/seller-profile/${sellerProfileId}/edit`} color="primary" data-cy="entityEditButton">
-                <FontAwesomeIcon icon="pencil-alt" />{' '}
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="letslinkApp.sellerProfile.home.createOrEditLabel">Create or edit a Seller Profile</Translate>
-                </span>
-              </Button>
-            )
-          )}
+          {isAuthenticated
+            ? (isAdmin && (
+                <Button
+                  tag={Link}
+                  to="/seller-profile/new"
+                  className="btn btn-primary jh-create-entity"
+                  id="jh-create-entity"
+                  data-cy="entityCreateButton"
+                >
+                  <FontAwesomeIcon icon="plus" />
+                  &nbsp;
+                  <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
+                </Button>
+              )) ||
+              (sellerProfileId !== undefined && (
+                <Button tag={Link} to={`/seller-profile/${sellerProfileId}/edit`} color="primary" data-cy="entityEditButton">
+                  <FontAwesomeIcon icon="pencil-alt" />{' '}
+                  <span className="d-none d-md-inline">
+                    <Translate contentKey="letslinkApp.sellerProfile.home.createOrEditLabel">Create or edit a Seller Profile</Translate>
+                  </span>
+                </Button>
+              ))
+            : null}
         </div>
       </h2>
       {sellerProfileList && sellerProfileList.length > 0 ? (

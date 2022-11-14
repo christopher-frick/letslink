@@ -14,7 +14,7 @@ jobs:
       STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_APIKEY_TEST }}
       STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_APIKEY_TEST }}
       JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET: ${{ secrets.JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET }}
-      MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -52,6 +52,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
         run: |
           if [ ! -z "$HEROKU_API_KEY" ]; then
               ./mvnw -ntp com.heroku.sdk:heroku-maven-plugin:2.0.5:deploy -DskipTests -Pprod -Dheroku.buildpacks=heroku/jvm -Dheroku.appName=beta-letslink

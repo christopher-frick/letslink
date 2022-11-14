@@ -96,7 +96,19 @@ export const SellerProfile = () => {
                     <Translate contentKey="letslinkApp.sellerProfile.home.createOrEditLabel">Create or edit a Seller Profile</Translate>
                   </span>
                 </Button>
-              ))
+              )) || (
+                <Button
+                  tag={Link}
+                  to="/seller-profile/new"
+                  className="btn btn-primary jh-create-entity"
+                  id="jh-create-entity"
+                  data-cy="entityCreateButton"
+                >
+                  <FontAwesomeIcon icon="plus" />
+                  &nbsp;
+                  <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
+                </Button>
+              )
             : null}
         </div>
       </h2>

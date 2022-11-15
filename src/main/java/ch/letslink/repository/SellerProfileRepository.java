@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -37,4 +38,9 @@ public interface SellerProfileRepository extends JpaRepository<SellerProfile, Lo
 
     @Query("select sellerProfile from SellerProfile sellerProfile left join fetch sellerProfile.user where sellerProfile.id =:id")
     Optional<SellerProfile> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query(
+        "select sellerProfile from SellerProfile sellerProfile left join fetch sellerProfile.user where sellerProfile.user.login =:login"
+    )
+    Optional<SellerProfile> findByUserLogin(String s);
 }

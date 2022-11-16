@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Card, Col, Row } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,8 +12,10 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 export const SellerProfile = () => {
   const dispatch = useAppDispatch();
 
-  const account = useAppSelector(state => state.authentication.account);
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const account = useAppSelector(state => state.authentication.account);
   const sellerProfileList = useAppSelector(state => state.sellerProfile.entities);
   const loading = useAppSelector(state => state.sellerProfile.loading);
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
@@ -45,7 +47,7 @@ export const SellerProfile = () => {
         <Row>
           {sellerProfileList.map((sellerProfile, i) => (
             <Col lg="6" key={`entity-${i}`}>
-              <Card className="text-white bg-dark mb-3">
+              <Card className="text-white bg-dark mb-3" style={{ maxHeight: 500 }}>
                 <CardHeader sellerProfile={sellerProfile} />
                 <CardBody sellerProfile={sellerProfile} />
                 {isAuthenticated && (
@@ -80,6 +82,7 @@ const CardHeader = ({ sellerProfile }) => {
     </Card>
   );
 };
+
 const CardBody = ({ sellerProfile }) => {
   return (
     <Card tag={Link} to={`${sellerProfile.id}`} className="card-body text-white bg-dark mb-3">
@@ -142,6 +145,7 @@ const CardEditDeleteButtons = ({ sellerProfile, isAdmin, isAuthenticated, accoun
     )
   );
 };
+
 const ButtonCreateSellerProfile = ({ isAdmin, isAuthenticated, sellerProfileId }) => {
   return (
     (isAuthenticated && isAdmin && (

@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { openFile, byteSize, Translate } from 'react-jhipster';
+import { byteSize, openFile, Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-
-import { IProduct } from 'app/shared/model/product.model';
 import { getEntities } from './product.reducer';
 
 export const Product = () => {
@@ -90,7 +86,11 @@ export const Product = () => {
                       <div>
                         {product.pictureContentType ? (
                           <a onClick={openFile(product.pictureContentType, product.picture)}>
-                            <img src={`data:${product.pictureContentType};base64,${product.picture}`} style={{ maxHeight: '30px' }} />
+                            <img
+                              alt="seller profile picture"
+                              src={`data:${product.pictureContentType};base64,${product.picture}`}
+                              style={{ maxHeight: '30px' }}
+                            />
                             &nbsp;
                           </a>
                         ) : null}

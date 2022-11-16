@@ -47,7 +47,7 @@ export const SellerProfile = () => {
         <Row>
           {sellerProfileList.map((sellerProfile, i) => (
             <Col lg="6" key={`entity-${i}`}>
-              <Card className="text-white bg-dark mb-3" style={{ maxHeight: 500 }}>
+              <Card className="text-white bg-dark mb-3">
                 <CardHeader sellerProfile={sellerProfile} />
                 <CardBody sellerProfile={sellerProfile} />
                 {isAuthenticated && (

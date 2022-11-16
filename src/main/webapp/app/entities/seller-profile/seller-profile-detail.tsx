@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './seller-profile.reducer';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import Product from 'app/entities/product/product';
 
 export const SellerProfileDetail = () => {
   const dispatch = useAppDispatch();
@@ -23,8 +24,6 @@ export const SellerProfileDetail = () => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const account = useAppSelector(state => state.authentication.account);
-
-  const buttonGroup = sellerProfile => {};
 
   return (
     <Row>
@@ -42,6 +41,7 @@ export const SellerProfileDetail = () => {
           <SellerProfileDetails sellerProfileEntity={sellerProfileEntity} />
           <p>{'www.letlink.ch/to/' + sellerProfileEntity.id}</p>
         </Card>
+        <Product sellerProfileEntity={sellerProfileEntity} isAuthenticated={isAuthenticated} isAdmin={isAdmin} account={account} />
       </Col>
     </Row>
   );

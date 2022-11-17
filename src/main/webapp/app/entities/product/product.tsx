@@ -8,7 +8,7 @@ import { getEntities } from './product.reducer';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { AUTHORITIES } from 'app/config/constants';
 
-export const Product = (sellerProfileEntity?) => {
+export const Product = (sellerProfile = null) => {
   const dispatch = useAppDispatch();
 
   const location = useLocation();
@@ -19,6 +19,8 @@ export const Product = (sellerProfileEntity?) => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const isAdmin = useAppSelector(state => hasAnyAuthority(state.authentication.account.authorities, [AUTHORITIES.ADMIN]));
   const account = useAppSelector(state => state.authentication.account);
+  const isLoggedUserOwnerSellerProfile = sellerProfile.sellerProfileEntity.user?.id === account?.id;
+
   useEffect(() => {
     dispatch(getEntities({}));
   }, []);
@@ -28,46 +30,61 @@ export const Product = (sellerProfileEntity?) => {
   };
 
   return (
-    <Card className={'card text-white bg-dark mb-3'}>
-      <Card className="card-header text-center align-content-center">
-        <h2 id="product-heading" data-cy="ProductHeading">
-          <Translate contentKey="letslinkApp.product.home.title">Products</Translate>
-        </h2>
-        <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
-            <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="letslinkApp.product.home.refreshListLabel">Refresh</Translate>
-          </Button>
+    <Card className="card-header text-center align-content-center">
+      <h2 id="product-heading" data-cy="ProductHeading">
+        <Translate contentKey="letslinkApp.product.home.title">Products</Translate>
+      </h2>
+      <div className="d-flex justify-content-end">
+        <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <FontAwesomeIcon icon="sync" spin={loading} />{' '}
+          <Translate contentKey="letslinkApp.product.home.refreshListLabel">Refresh</Translate>
+        </Button>
+        {isAuthenticated && (isAdmin || isLoggedUserOwnerSellerProfile) && (
           <Button onClick={() => navigate('/product/new')} color="primary" data-cy="entityCreateButton">
-            <FontAwesomeIcon icon="plus" /> <Translate contentKey="letslinkApp.product.home.createLabel">Add</Translate>
+            <FontAwesomeIcon icon="plus" />
+            <Translate contentKey="letslinkApp.product.home.createLabel">Create a new Product</Translate>
           </Button>
-        </div>
-      </Card>
+        )}
+      </div>
       <ProductList
         productList={productList}
         loading={loading}
-        sellerProfileEntity={sellerProfileEntity}
         isAuthenticated={isAuthenticated}
         isAdmin={isAdmin}
         account={account}
+        isLoggedUserOwnerSellerProfile={isLoggedUserOwnerSellerProfile}
+        sellerProfileEntity={sellerProfile.sellerProfileEntity}
       />
     </Card>
   );
 };
 
-const ProductList = ({ productList, loading, sellerProfileEntity, isAuthenticated, isAdmin, account }) => {
+const ProductList = ({ productList, loading, sellerProfileEntity, isAuthenticated, isAdmin, account, isLoggedUserOwnerSellerProfile }) => {
   return productList && productList.length > 0 ? (
     <div>
-      {productList.map((product, i) => (
-        <ProductItem
-          key={`product-entity-${i}`}
-          productEntity={product}
-          sellerProfileEntity={sellerProfileEntity}
-          isAuthenticated={isAuthenticated}
-          isAdmin={isAdmin}
-          account={account}
-        />
-      ))}
+      {(isAdmin &&
+        productList.map((product, i) => (
+          <ProductItem
+            key={`product-entity-${i}`}
+            productEntity={product}
+            sellerProfileEntity={sellerProfileEntity}
+            isAuthenticated={isAuthenticated}
+            isAdmin={isAdmin}
+            account={account}
+          />
+        ))) ||
+        productList
+          .filter(product => product.sellerProfile?.id === sellerProfileEntity.id)
+          .map((product, i) => (
+            <ProductItem
+              key={`product-entity-${i}`}
+              productEntity={product}
+              sellerProfileEntity={sellerProfileEntity}
+              isAuthenticated={isAuthenticated}
+              isAdmin={isAdmin}
+              account={account}
+            />
+          ))}
     </div>
   ) : (
     !loading && (
@@ -100,7 +117,7 @@ const ButtonGroupEditDelete = ({ sellerProfile, isAdmin, account, isAuthenticate
     isAuthenticated && (
       <div className="btn-group flex-btn-group-container">
         {(isAdmin || sellerProfile.user?.id === account?.id) && (
-          <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+          <Button tag={Link} to={`/product/${productEntity?.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
             <FontAwesomeIcon icon="pencil-alt" />{' '}
             <span className="d-none d-md-inline">
               <Translate contentKey="entity.action.edit">Edit</Translate>
@@ -109,7 +126,7 @@ const ButtonGroupEditDelete = ({ sellerProfile, isAdmin, account, isAuthenticate
         )}
         {isAuthenticated &&
           ((isAdmin && (
-            <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+            <Button tag={Link} to={`/product/${productEntity.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
               <FontAwesomeIcon icon="trash" />{' '}
               <span className="d-none d-md-inline">
                 <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -117,7 +134,7 @@ const ButtonGroupEditDelete = ({ sellerProfile, isAdmin, account, isAuthenticate
             </Button>
           )) ||
             (sellerProfile.user?.id === account?.id && (
-              <Button tag={Link} to={`/seller-profile/${sellerProfile.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+              <Button tag={Link} to={`/product/${productEntity.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
                 <FontAwesomeIcon icon="trash" />{' '}
                 <span className="d-none d-md-inline">
                   <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -157,11 +174,25 @@ const ProductDetails = ({ productEntity }) => {
   );
 };
 
-{
-  /*
-const OldProduct = () => {
+export const OldProduct = () => {
+  const dispatch = useAppDispatch();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const productList = useAppSelector(state => state.product.entities);
+  const loading = useAppSelector(state => state.product.loading);
+
+  useEffect(() => {
+    dispatch(getEntities({}));
+  }, []);
+
+  const handleSyncList = () => {
+    dispatch(getEntities({}));
+  };
+
   return (
-        <div>
+    <div>
       <h2 id="product-heading" data-cy="ProductHeading">
         <Translate contentKey="letslinkApp.product.home.title">Products</Translate>
         <div className="d-flex justify-content-end">
@@ -299,7 +330,6 @@ const OldProduct = () => {
       </div>
     </div>
   );
-}*/
-}
+};
 
 export default Product;

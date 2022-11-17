@@ -28,9 +28,12 @@ export const ProductUpdate = () => {
   const updating = useAppSelector(state => state.product.updating);
   const updateSuccess = useAppSelector(state => state.product.updateSuccess);
   const productCategoryValues = Object.keys(ProductCategory);
+  const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const isAdmin = useAppSelector(state => state.authentication.account.authorities.includes('ROLE_ADMIN'));
+  const account = useAppSelector(state => state.authentication.account);
 
   const handleClose = () => {
-    navigate('/product');
+    navigate('/profiles');
   };
 
   useEffect(() => {
@@ -150,17 +153,33 @@ export const ProductUpdate = () => {
                 data-cy="sellerProfile"
                 label={translate('letslinkApp.product.sellerProfile')}
                 type="select"
+                /*disabled={isAdmin ? false : true}*/
               >
-                <option value="" key="0" />
-                {sellerProfiles
-                  ? sellerProfiles.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.artistName}
-                      </option>
-                    ))
-                  : null}
+                {
+                  // isauthenticated is used to prevent the user from seeing the user field when he is not logged in
+                  isAuthenticated &&
+                    // if the user is logged in has admin rights, he can see all users
+                    (isAdmin
+                      ? sellerProfiles &&
+                        sellerProfiles.length > 0 &&
+                        sellerProfiles.map(sellerProfile => (
+                          <option value={sellerProfile.id} key={sellerProfile.id}>
+                            {sellerProfile.id} {sellerProfile.artistName}
+                          </option>
+                        ))
+                      : // if the user is logged in but has no admin rights, he can only see his own user
+                        sellerProfiles &&
+                        sellerProfiles.length > 0 &&
+                        sellerProfiles
+                          .filter(sellerProfile => sellerProfile.user?.id === account.id)
+                          .map(sellerProfile => (
+                            <option value={sellerProfile} key={sellerProfile}>
+                              {sellerProfile.id} {sellerProfile.artistName}
+                            </option>
+                          )))
+                }
               </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/product" replace color="info">
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/profiles" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">

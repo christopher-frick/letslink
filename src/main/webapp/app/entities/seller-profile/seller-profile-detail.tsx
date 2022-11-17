@@ -41,7 +41,7 @@ export const SellerProfileDetail = () => {
           <SellerProfileDetails sellerProfileEntity={sellerProfileEntity} />
           <p>{'www.letlink.ch/to/' + sellerProfileEntity.id}</p>
         </Card>
-        <Product sellerProfileEntity={sellerProfileEntity} isAuthenticated={isAuthenticated} isAdmin={isAdmin} account={account} />
+        <Product sellerProfileEntity={sellerProfileEntity} />
       </Col>
     </Row>
   );

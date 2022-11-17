@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
-import SellerProfile from './seller-profile';
+import SellerProfile, { SellerProfileAdmin } from './seller-profile';
 import SellerProfileDetail from './seller-profile-detail';
 import SellerProfileUpdate from './seller-profile-update';
 import SellerProfileDeleteDialog from './seller-profile-delete-dialog';
@@ -11,6 +11,7 @@ import SellerProfileDeleteDialog from './seller-profile-delete-dialog';
 const SellerProfileRoutes = () => (
   <ErrorBoundaryRoutes>
     <Route index element={<SellerProfile />} />
+    <Route path="admin" element={<SellerProfileAdmin />} />
     <Route path="new" element={<SellerProfileUpdate />} />
     <Route path=":id">
       <Route index element={<SellerProfileDetail />} />

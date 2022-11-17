@@ -69,6 +69,28 @@ public class SellerProfileService {
      */
     public SellerProfile update(SellerProfile sellerProfile) {
         log.debug("Request to update SellerProfile : {}", sellerProfile);
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            return sellerProfileRepository.save(sellerProfile);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
+            //check if the sellerProfile has a user
+            //if it has a user, check if the user is the same as the current user
+            //if it is the same, save the sellerProfile
+            //if it is not the same, throw an exception
+            //if it does not have a user, set the user to the current user and save the sellerProfile
+            if (sellerProfile.getUser() != null) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                    if (sellerProfile.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                        return sellerProfileRepository.save(sellerProfile);
+                    } else {
+                        throw new RuntimeException("You are not allowed to save this sellerProfile");
+                    }
+                }
+            } else if (SecurityUtils.getCurrentUser().isPresent()) {
+                sellerProfile.setUser(SecurityUtils.getCurrentUser().get());
+                return sellerProfileRepository.save(sellerProfile);
+            }
+            return sellerProfileRepository.save(sellerProfile);
+        }
         return save(sellerProfile);
     }
 
@@ -80,7 +102,103 @@ public class SellerProfileService {
      */
     public Optional<SellerProfile> partialUpdate(SellerProfile sellerProfile) {
         log.debug("Request to partially update SellerProfile : {}", sellerProfile);
+        //if authenticated user is admin, update the sellerProfile
+        if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
+            return sellerProfileRepository
+                .findById(sellerProfile.getId())
+                .map(existingSellerProfile -> {
+                    if (sellerProfile.getFirstName() != null) {
+                        existingSellerProfile.setFirstName(sellerProfile.getFirstName());
+                    }
+                    if (sellerProfile.getLastName() != null) {
+                        existingSellerProfile.setLastName(sellerProfile.getLastName());
+                    }
+                    if (sellerProfile.getStripeAccountId() != null) {
+                        existingSellerProfile.setStripeAccountId(sellerProfile.getStripeAccountId());
+                    }
+                    if (sellerProfile.getArtistName() != null) {
+                        existingSellerProfile.setArtistName(sellerProfile.getArtistName());
+                    }
+                    if (sellerProfile.getPicture() != null) {
+                        existingSellerProfile.setPicture(sellerProfile.getPicture());
+                    }
+                    if (sellerProfile.getPictureContentType() != null) {
+                        existingSellerProfile.setPictureContentType(sellerProfile.getPictureContentType());
+                    }
+                    if (sellerProfile.getDescription() != null) {
+                        existingSellerProfile.setDescription(sellerProfile.getDescription());
+                    }
+                    if (sellerProfile.getEmail() != null) {
+                        existingSellerProfile.setEmail(sellerProfile.getEmail());
+                    }
+                    if (sellerProfile.getPhone() != null) {
+                        existingSellerProfile.setPhone(sellerProfile.getPhone());
+                    }
+                    if (sellerProfile.getCity() != null) {
+                        existingSellerProfile.setCity(sellerProfile.getCity());
+                    }
+                    if (sellerProfile.getCountry() != null) {
+                        existingSellerProfile.setCountry(sellerProfile.getCountry());
+                    }
 
+                    return existingSellerProfile;
+                })
+                .map(sellerProfileRepository::save);
+        } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
+            //check if the sellerProfile has a user
+            //if it has a user, check if the user is the same as the current user
+            //if it is the same, update the sellerProfile
+            //if it is not the same, throw an exception
+            //if it does not have a user, set the user to the current user and update the sellerProfile
+            if (sellerProfile.getUser() != null) {
+                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+                    if (sellerProfile.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                        return sellerProfileRepository
+                            .findById(sellerProfile.getId())
+                            .map(existingSellerProfile -> {
+                                if (sellerProfile.getFirstName() != null) {
+                                    existingSellerProfile.setFirstName(sellerProfile.getFirstName());
+                                }
+                                if (sellerProfile.getLastName() != null) {
+                                    existingSellerProfile.setLastName(sellerProfile.getLastName());
+                                }
+                                if (sellerProfile.getStripeAccountId() != null) {
+                                    existingSellerProfile.setStripeAccountId(sellerProfile.getStripeAccountId());
+                                }
+                                if (sellerProfile.getArtistName() != null) {
+                                    existingSellerProfile.setArtistName(sellerProfile.getArtistName());
+                                }
+                                if (sellerProfile.getPicture() != null) {
+                                    existingSellerProfile.setPicture(sellerProfile.getPicture());
+                                }
+                                if (sellerProfile.getPictureContentType() != null) {
+                                    existingSellerProfile.setPictureContentType(sellerProfile.getPictureContentType());
+                                }
+                                if (sellerProfile.getDescription() != null) {
+                                    existingSellerProfile.setDescription(sellerProfile.getDescription());
+                                }
+                                if (sellerProfile.getEmail() != null) {
+                                    existingSellerProfile.setEmail(sellerProfile.getEmail());
+                                }
+                                if (sellerProfile.getPhone() != null) {
+                                    existingSellerProfile.setPhone(sellerProfile.getPhone());
+                                }
+                                if (sellerProfile.getCity() != null) {
+                                    existingSellerProfile.setCity(sellerProfile.getCity());
+                                }
+                                if (sellerProfile.getCountry() != null) {
+                                    existingSellerProfile.setCountry(sellerProfile.getCountry());
+                                }
+
+                                return existingSellerProfile;
+                            })
+                            .map(sellerProfileRepository::save);
+                    } else {
+                        throw new RuntimeException("You are not allowed to update this sellerProfile");
+                    }
+                }
+            }
+        }
         return sellerProfileRepository
             .findById(sellerProfile.getId())
             .map(existingSellerProfile -> {

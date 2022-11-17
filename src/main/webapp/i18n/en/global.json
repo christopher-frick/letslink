@@ -7,8 +7,8 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
-        "sellerProfile": "Seller Profile",
-        "product": "Product",
+        "sellerProfile": "Profiles",
+        "product": "Products",
         "projectLink": "Project Link",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },

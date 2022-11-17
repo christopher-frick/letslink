@@ -36,7 +36,7 @@ export const SellerProfile = () => (
     <NavLink tag={Link} to="profiles" className="d-flex align-items-center">
       <FontAwesomeIcon icon="asterisk" />
       <span>
-        <Translate contentKey="global.menu.entities.sellerProfile">SellerProfile</Translate>
+        <Translate contentKey="global.menu.entities.sellerProfile">Profile</Translate>
       </span>
     </NavLink>
   </NavItem>

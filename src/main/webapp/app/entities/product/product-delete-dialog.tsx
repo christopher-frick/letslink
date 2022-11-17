@@ -25,7 +25,7 @@ export const ProductDeleteDialog = () => {
   const updateSuccess = useAppSelector(state => state.product.updateSuccess);
 
   const handleClose = () => {
-    navigate('/product');
+    navigate('/profiles');
   };
 
   useEffect(() => {

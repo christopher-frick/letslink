@@ -52,14 +52,13 @@ export const Product = (sellerProfile = null) => {
         isAuthenticated={isAuthenticated}
         isAdmin={isAdmin}
         account={account}
-        isLoggedUserOwnerSellerProfile={isLoggedUserOwnerSellerProfile}
         sellerProfileEntity={sellerProfile.sellerProfileEntity}
       />
     </Card>
   );
 };
 
-const ProductList = ({ productList, loading, sellerProfileEntity, isAuthenticated, isAdmin, account, isLoggedUserOwnerSellerProfile }) => {
+const ProductList = ({ productList, loading, sellerProfileEntity, isAuthenticated, isAdmin, account }) => {
   return productList && productList.length > 0 ? (
     <div>
       {(isAdmin &&

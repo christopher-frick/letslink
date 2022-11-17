@@ -60,7 +60,6 @@ export const Product = (sellerProfile = null) => {
 };
 
 const ProductList = ({ productList, loading, sellerProfileEntity, isAuthenticated, isAdmin, account, isLoggedUserOwnerSellerProfile }) => {
-  console.log(loading);
   return productList && productList.length > 0 ? (
     <div>
       {(isAdmin &&

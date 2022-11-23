@@ -91,6 +91,8 @@
         <stripe-java.version>21.12.0</stripe-java.version>
         <postgresql-testcontainers.version>1.17.5</postgresql-testcontainers.version>
         <!-- jhipster-needle-maven-property -->
+        <sonar.organization>christopher-frick</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencyManagement>

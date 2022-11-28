@@ -48,7 +48,7 @@ public class ProductService {
             //if not, throw an exception
             //if yes, save the product
             if (product.getSellerProfile() == null) {
-                product.setSellerProfile(sellerProfileRepository.findByUserIsCurrentUser());
+                product.setSellerProfile(sellerProfileRepository.findByUserLogin(SecurityUtils.getCurrentUserLogin().get()).get());
             } else if (!product.getSellerProfile().getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
                 throw new RuntimeException("You are not allowed to save this product");
             }

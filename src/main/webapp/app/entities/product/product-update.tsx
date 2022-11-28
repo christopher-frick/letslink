@@ -173,7 +173,7 @@ export const ProductUpdate = () => {
                         sellerProfiles
                           .filter(sellerProfile => sellerProfile.user?.id === account.id)
                           .map(sellerProfile => (
-                            <option value={sellerProfile} key={sellerProfile}>
+                            <option value={sellerProfile.id} key={sellerProfile.id}>
                               {sellerProfile.id} {sellerProfile.artistName}
                             </option>
                           )))

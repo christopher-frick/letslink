@@ -59,44 +59,30 @@ export const Product = (sellerProfile = null) => {
 };
 
 const ProductList = ({ productList, loading, sellerProfileEntity, isAuthenticated, isAdmin, account }) => {
-  return productList && productList.length > 0 ? (
-    <div>
-      {(isAdmin &&
-        productList.map((product, i) => (
-          <ProductItem
-            key={`product-entity-${i}`}
-            productEntity={product}
-            sellerProfileEntity={sellerProfileEntity}
-            isAuthenticated={isAuthenticated}
-            isAdmin={isAdmin}
-            account={account}
-          />
-        ))) ||
-      productList.filter(product => product.sellerProfile?.id === sellerProfileEntity.id) > 0
-        ? productList
-            .filter(product => product.sellerProfile?.id === sellerProfileEntity.id)
-            .map((product, i) => (
-              <ProductItem
-                key={`product-entity-${i}`}
-                productEntity={product}
-                sellerProfileEntity={sellerProfileEntity}
-                isAuthenticated={isAuthenticated}
-                isAdmin={isAdmin}
-                account={account}
-              />
-            ))
-        : !loading && (
-            <div className="alert alert-warning">
-              <Translate contentKey="letslinkApp.product.home.notFound">No Products found</Translate>
-            </div>
-          )}
-    </div>
-  ) : (
-    !loading && (
-      <div className="alert alert-warning">
-        <Translate contentKey="letslinkApp.product.home.notFound">No Products found</Translate>
-      </div>
+  return (
+    productList &&
+    productList.length > 0 &&
+    productList.map((product, i) =>
+      product.sellerProfile?.id === sellerProfileEntity?.id ? (
+        <ProductItem
+          key={`entity-${i}`}
+          productEntity={product}
+          isAuthenticated={isAuthenticated}
+          isAdmin={isAdmin}
+          account={account}
+          sellerProfileEntity={sellerProfileEntity}
+        />
+      ) : (
+        !loading && <NotFound />
+      )
     )
+  );
+};
+const NotFound = () => {
+  return (
+    <div className="alert alert-warning">
+      <Translate contentKey="letslinkApp.product.home.notFound">No Products found</Translate>
+    </div>
   );
 };
 const ProductItem = ({ productEntity, sellerProfileEntity, isAuthenticated, isAdmin, account }) => {

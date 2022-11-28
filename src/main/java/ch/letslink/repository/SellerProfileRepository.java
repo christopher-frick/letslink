@@ -1,6 +1,7 @@
 package ch.letslink.repository;
 
 import ch.letslink.domain.SellerProfile;
+import ch.letslink.security.SecurityUtils;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -43,4 +44,11 @@ public interface SellerProfileRepository extends JpaRepository<SellerProfile, Lo
         "select sellerProfile from SellerProfile sellerProfile left join fetch sellerProfile.user where sellerProfile.user.login =:login"
     )
     Optional<SellerProfile> findByUserLogin(String s);
+
+    default SellerProfile findByUserIsCurrentUser() {
+        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
+            return findByUserLogin(SecurityUtils.getCurrentUserLogin().get()).get();
+        }
+        return null;
+    }
 }

@@ -44,11 +44,4 @@ public interface SellerProfileRepository extends JpaRepository<SellerProfile, Lo
         "select sellerProfile from SellerProfile sellerProfile left join fetch sellerProfile.user where sellerProfile.user.login =:login"
     )
     Optional<SellerProfile> findByUserLogin(String s);
-
-    default SellerProfile findByUserIsCurrentUser() {
-        if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-            return findByUserLogin(SecurityUtils.getCurrentUserLogin().get()).get();
-        }
-        return null;
-    }
 }

@@ -147,34 +147,34 @@ const CardEditDeleteButtons = ({ sellerProfile, isAdmin, isAuthenticated, accoun
 };
 
 const ButtonCreateSellerProfile = ({ isAdmin, isAuthenticated, sellerProfileId }) => {
-  return (
-    (isAuthenticated && isAdmin && (
-      <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-        <FontAwesomeIcon icon="plus" />
-        &nbsp;
-        <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
-      </Link>
-    )) ||
-    (sellerProfileId !== undefined && (
-      <Link
-        to={`/seller-profile/${sellerProfileId}/edit`}
-        color="primary"
-        data-cy="entityEditButton"
-        className="btn btn-primary jh-create-entity"
-      >
-        <FontAwesomeIcon icon="pencil-alt" />{' '}
-        <span className="d-none d-md-inline">
-          <Translate contentKey="letslinkApp.sellerProfile.home.createOrEditLabel">Create or edit a Seller Profile</Translate>
-        </span>
-      </Link>
-    )) || (
-      <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
-        <FontAwesomeIcon icon="plus" />
-        &nbsp;
-        <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
-      </Link>
-    )
-  );
+  return isAuthenticated
+    ? (isAdmin && (
+        <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <FontAwesomeIcon icon="plus" />
+          &nbsp;
+          <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
+        </Link>
+      )) ||
+        (sellerProfileId !== undefined && (
+          <Link
+            to={`/seller-profile/${sellerProfileId}/edit`}
+            color="primary"
+            data-cy="entityEditButton"
+            className="btn btn-primary jh-create-entity"
+          >
+            <FontAwesomeIcon icon="pencil-alt" />{' '}
+            <span className="d-none d-md-inline">
+              <Translate contentKey="letslinkApp.sellerProfile.home.createOrEditLabel">Create or edit a Seller Profile</Translate>
+            </span>
+          </Link>
+        )) || (
+          <Link to="/seller-profile/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+            <FontAwesomeIcon icon="plus" />
+            &nbsp;
+            <Translate contentKey="letslinkApp.sellerProfile.home.createLabel">Create new Seller Profile</Translate>
+          </Link>
+        )
+    : null;
 };
 
 export const SellerProfileAdmin = () => {

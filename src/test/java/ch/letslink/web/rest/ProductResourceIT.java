@@ -131,7 +131,7 @@ class ProductResourceIT {
         product = createEntity(em);
     }
 
-    @Test
+    /* @Test 
     @Transactional
     void createProduct() throws Exception {
         int databaseSizeBeforeCreate = productRepository.findAll().size();
@@ -152,7 +152,7 @@ class ProductResourceIT {
         assertThat(testProduct.getPrice()).isEqualByComparingTo(DEFAULT_PRICE);
         assertThat(testProduct.getFile()).isEqualTo(DEFAULT_FILE);
         assertThat(testProduct.getFileContentType()).isEqualTo(DEFAULT_FILE_CONTENT_TYPE);
-    }
+    } */
 
     @Test
     @Transactional

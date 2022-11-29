@@ -1,6 +1,7 @@
 package ch.letslink.repository;
 
 import ch.letslink.domain.SellerProfile;
+import ch.letslink.security.SecurityUtils;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

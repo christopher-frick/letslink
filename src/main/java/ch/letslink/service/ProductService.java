@@ -38,31 +38,24 @@ public class ProductService {
      * @return the persisted entity.
      */
     public Product save(Product product) {
-        log.debug("Request to save Product : {}", product);
+        log.debug("Enter Product save method : {}", product);
         if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)) {
             return productRepository.save(product);
         } else if (SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)) {
-            if (product.getSellerProfile() != null) {
-                if (SecurityUtils.getCurrentUserLogin().isPresent()) {
-                    if (product.getSellerProfile().getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
-                        return productRepository.save(product);
-                    } else {
-                        throw new RuntimeException(
-                            "You are not allowed to save this product because you are not the owner of the sellerProfile"
-                        );
-                    }
-                }
-            } else if (SecurityUtils.getCurrentUser().isPresent()) {
+            //check if the product has a seller profile
+            //if not, create one with the current user
+            //if product has a seller profile, check if the seller profile is the same as the current user
+            //if not, throw an exception
+            //if yes, save the product
+            if (product.getSellerProfile() == null) {
                 product.setSellerProfile(sellerProfileRepository.findByUserLogin(SecurityUtils.getCurrentUserLogin().get()).get());
-                if (product.getSellerProfile() != null) {
-                    return productRepository.save(product);
-                } else {
-                    throw new RuntimeException("The current user does not have a sellerProfile");
-                }
+            } else if (!product.getSellerProfile().getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin().get())) {
+                throw new RuntimeException("You are not allowed to save this product");
             }
             return productRepository.save(product);
+        } else {
+            return null;
         }
-        return productRepository.save(product);
     }
 
     /**

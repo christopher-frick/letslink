@@ -87,8 +87,8 @@ const NotFound = () => {
 };
 const ProductItem = ({ productEntity, sellerProfileEntity, isAuthenticated, isAdmin, account }) => {
   return (
-    <Card className="card text-white bg-dark mb-3">
-      <Card className="card-header text-white bg-dark mb-3 text-center align-content-center">
+    <Card className="card text-white bg-dark mb-3 text-center">
+      <Card className="card-header text-white bg-dark mb-3 text-center">
         <ProductPicture productEntity={productEntity} />
         <ButtonGroupEditDelete
           productEntity={productEntity}
@@ -138,7 +138,18 @@ const ButtonGroupEditDelete = ({ sellerProfile, isAdmin, account, isAuthenticate
 };
 const ProductPicture = ({ productEntity }) => {
   return productEntity?.pictureContentType ? (
-    <img src={`data:${productEntity.pictureContentType};base64,${productEntity.picture}`} className="img-fluid" />
+    <img
+      src={`data:${productEntity.pictureContentType};base64,${productEntity.picture}`}
+      className="img-fluid"
+      style={{
+        maxHeight: '300px',
+        maxWidth: '300px',
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: '50%',
+      }}
+    />
   ) : null;
 };
 
@@ -146,7 +157,7 @@ const ProductDetails = ({ productEntity }) => {
   return (
     <Card className={'card-body text-white bg-dark mb-3'}>
       <h4 className="card-title text-center">{productEntity?.name ? productEntity.artistName : 'No Artist Name!'}</h4>
-      <p className="card-text text-center">{productEntity.price ? productEntity.price : 'No Price!'}</p>
+      <p className="card-text text-center">Price : {productEntity.price ? productEntity.price : 'No Price!'} CHF</p>
       <p className="card-text">{productEntity?.description ? productEntity.description : 'No description!'}</p>
       {productEntity.file ? (
         <div>

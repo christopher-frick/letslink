@@ -39,7 +39,7 @@ export const SellerProfileDetail = () => {
             />
           </Card>
           <SellerProfileDetails sellerProfileEntity={sellerProfileEntity} />
-          <p>{'www.letlink.ch/to/' + sellerProfileEntity.id}</p>
+          <p>{'https://beta-letslink.herokuapp.com/to/' + sellerProfileEntity.id}</p>
         </Card>
         <Product sellerProfileEntity={sellerProfileEntity} />
       </Col>

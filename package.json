@@ -152,7 +152,7 @@
     "lint-staged": "13.0.3",
     "merge-jsons-webpack-plugin": "2.0.1",
     "mini-css-extract-plugin": "2.6.1",
-    "mocha": "7.1.2",
+    "mocha": "10.2.0",
     "postcss-loader": "7.0.1",
     "prettier": "2.7.1",
     "prettier-plugin-java": "1.6.2",
